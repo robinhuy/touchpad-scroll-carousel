@@ -1,4 +1,7 @@
-let itemWidth = 0;
+import './main.css';
+
+let items,
+  itemWidth = 0;
 const carousel = document.getElementById('carousel');
 let position = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -44,6 +47,9 @@ carousel.addEventListener('mousedown', mouseDownHandler);
 function _init() {
   items = carousel.children;
   itemWidth = items[0].offsetWidth;
+
+  document.getElementById('prev').addEventListener('click', prev);
+  document.getElementById('next').addEventListener('click', next);
 
   _preventDragElementA();
 }
