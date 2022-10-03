@@ -1,98 +1,127 @@
-import './main.css';
-
-let items,
-  itemWidth = 0;
-const carousel = document.getElementById('carousel');
-let position = { top: 0, left: 0, x: 0, y: 0 };
-
-const mouseDownHandler = function (e) {
-  position = {
-    // The current scroll
-    left: carousel.scrollLeft,
-    top: carousel.scrollTop,
-    // The current mouse position
-    x: e.clientX,
-    y: e.clientY,
-  };
-
-  carousel.style.userSelect = 'none';
-  carousel.addEventListener('mousemove', mouseMoveHandler);
-  carousel.addEventListener('mouseup', mouseUpHandler);
-};
-
-const mouseUpHandler = function () {
-  carousel.removeEventListener('mousemove', mouseMoveHandler);
-  carousel.removeEventListener('mouseup', mouseUpHandler);
-
-  carousel.style.cursor = 'grab';
-  carousel.style.removeProperty('user-select');
-  carousel.style.scrollBehavior = 'unset';
-};
-
-const mouseMoveHandler = function (e) {
-  const dx = e.clientX - position.x;
-  carousel.scrollLeft = position.left - dx;
-};
-
-carousel.addEventListener('mousedown', mouseDownHandler);
+// import "./main.css";
+import { DEFAULT_OPTIONS } from "./const";
+import { setCarouselStyles } from "./style";
 
 /**
  * Init.
  *
- * @param {Object}   $item    jQuery object with element.
+ * @param {Object}   options    jQuery object with element.
  *
  * @return {Void}
  *
  */
-function _init() {
-  items = carousel.children;
-  itemWidth = items[0].offsetWidth;
+function _init(options) {
+  let {
+    carouselSelector,
+    prevButtonSelector,
+    nextButtonSelector,
+    slidesToShow,
+    gap,
+    mouseDrag,
+  } = Object.assign(DEFAULT_OPTIONS, options);
+  const carousel = document.querySelector(carouselSelector);
 
-  document.getElementById('prev').addEventListener('click', prev);
-  document.getElementById('next').addEventListener('click', next);
+  if (Number.isFinite(+gap)) {
+    gap = gap + "px";
+  }
+  const gapNumber = parseFloat(gap);
+  const halfGap = gap.replace(gapNumber, gapNumber / 2);
 
-  _preventDragElementA();
+  let position = { top: 0, left: 0, x: 0, y: 0 };
+  let itemWidth = carousel.offsetWidth / slidesToShow;
+  console.log(itemWidth);
+
+  setCarouselStyles(carousel, slidesToShow, halfGap);
+
+  if (prevButtonSelector) {
+    document.querySelector(prevButtonSelector).addEventListener("click", () => {
+      carousel.scrollTo({
+        left: carousel.scrollLeft - itemWidth - gapNumber,
+        behavior: "smooth",
+      });
+    });
+  }
+
+  if (nextButtonSelector) {
+    document.querySelector(nextButtonSelector).addEventListener("click", () => {
+      carousel.scrollTo({
+        left: carousel.scrollLeft + itemWidth + gapNumber,
+        behavior: "smooth",
+      });
+    });
+  }
+
+  if (mouseDrag) {
+    const mouseDownHandler = function (e) {
+      position = {
+        // The current scroll
+        left: carousel.scrollLeft,
+        top: carousel.scrollTop,
+        // The current mouse position
+        x: e.clientX,
+        y: e.clientY,
+      };
+
+      carousel.addEventListener("mousemove", mouseMoveHandler);
+      carousel.addEventListener("mouseup", mouseUpHandler);
+
+      // Disable user select when drag
+      carousel.style.userSelect = "none";
+      carousel.style.cursor = "grab";
+    };
+
+    const mouseUpHandler = function () {
+      carousel.removeEventListener("mousemove", mouseMoveHandler);
+      carousel.removeEventListener("mouseup", mouseUpHandler);
+
+      carousel.style.removeProperty("user-select");
+      carousel.style.removeProperty("cursor");
+    };
+
+    const mouseMoveHandler = function (e) {
+      const dx = e.clientX - position.x;
+      carousel.scrollLeft = position.left - dx;
+    };
+
+    _preventDragElementA(carouselSelector);
+    carousel.addEventListener("mousedown", mouseDownHandler);
+  }
 }
 
-function _preventDragElementA() {
+const _preventDragElementA = (carouselSelector) => {
   let isDrag = false;
 
-  document.querySelectorAll('#carousel a').forEach((element) =>
-    element.addEventListener('dragstart', (event) => {
+  document.querySelectorAll(carouselSelector + " a").forEach((element) =>
+    element.addEventListener("dragstart", (event) => {
+      element.style.cursor = "grab";
       isDrag = true;
       event.preventDefault();
     })
   );
 
-  document.querySelectorAll('#carousel a').forEach((element) =>
-    element.addEventListener('click', (event) => {
+  document.querySelectorAll(carouselSelector + " a").forEach((element) =>
+    element.addEventListener("click", (event) => {
       if (isDrag) {
         event.preventDefault();
       }
     })
   );
 
-  document.querySelectorAll('#carousel a').forEach((element) =>
-    element.addEventListener('mouseup', (event) => {
+  document.querySelectorAll(carouselSelector + " a").forEach((element) =>
+    element.addEventListener("mouseup", () => {
+      element.style.removeProperty("cursor");
       setTimeout(() => {
         isDrag = false;
       }, 50);
     })
   );
-}
+};
 
-function next() {
-  carousel.scrollTo({
-    left: carousel.scrollLeft + itemWidth + 30,
-    behavior: 'smooth',
-  });
-}
-
-function prev() {
-  carousel.scrollTo({
-    left: carousel.scrollLeft - itemWidth - 30,
-    behavior: 'smooth',
-  });
-}
-
-_init();
+_init({
+  carouselSelector: "#carousel",
+  prevButtonSelector: "#prev",
+  nextButtonSelector: "#next",
+  slidesToShow: 3,
+  gap: 15,
+  mouseDrag: true,
+});

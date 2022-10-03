@@ -15,27 +15,26 @@ body {
   text-align: center;
 }
 
-#carousel {
+#carousel2 {
   display: flex;
   flex-wrap: nowrap;
   margin-left: -15px;
   margin-right: -15px;
   overflow-x: scroll;
-  /* scroll-behavior: smooth; */
   cursor: grab;
 }
 
-#carousel .item {
+#carousel2 .item {
   margin-left: 15px;
   margin-right: 15px;
 }
 
-#carousel .item:first-child,
-#carousel .item:last-child {
+#carousel2 .item:first-child,
+#carousel2 .item:last-child {
   margin-left: 0;
 }
 
-#carousel .item a {
+#carousel2 .item a {
   display: block;
   text-decoration: none;
 }
