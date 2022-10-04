@@ -1,3 +1,12 @@
+const ARROW_STYLE = {
+  buttonBackground: "#ffffff",
+  buttonBackgroundHover: "#111111",
+  buttonShadow: "#b4b4b4 0px 0px 2px 1px",
+  buttonShadowHover: "#dadada 0px 0px 2px 1px",
+  color: "#979797",
+  colorHover: "#ffffff",
+};
+
 export const setCarouselStyles = (
   carousel,
   slidesToShow,
@@ -44,8 +53,8 @@ export const createDefaultArrowButton = (type = "prev") => {
     height: 40px;
     cursor: pointer;
     transition: all 0.4s linear;
-    background: transparent;
-    box-shadow: #b4b4b4 0px 0px 2px 1px;
+    background-color: ${ARROW_STYLE.buttonBackground};
+    box-shadow: ${ARROW_STYLE.buttonShadow};
     touch-action: manipulation;
     appearance: none;
     border: none;
@@ -57,20 +66,35 @@ export const createDefaultArrowButton = (type = "prev") => {
     position: relative;
     width: 12px;
     height: 12px;
-    border-width: 0 0 2px 2px;
-    border-color: #979797;
     border-style: solid;
+    border-width: 0 0 2px 2px;
+    border-color: ${ARROW_STYLE.color};
   `;
-
   if (type === "prev") {
     arrow.style.left = "10px";
     arrow.style.transform = "rotate(45deg)";
   } else {
-    arrow.style.left = "6px";
+    arrow.style.left = "5px";
     arrow.style.transform = "rotate(-135deg)";
   }
 
   button.appendChild(arrow);
+
+  const removeHoverEffect = () => {
+    button.style.backgroundColor = ARROW_STYLE.buttonBackground;
+    button.style.boxShadow = ARROW_STYLE.buttonShadow;
+    arrow.style.borderColor = ARROW_STYLE.color;
+    button.removeEventListener("mouseleave", removeHoverEffect);
+  };
+
+  // Hover effect
+  button.addEventListener("mouseenter", () => {
+    button.style.backgroundColor = ARROW_STYLE.buttonBackgroundHover;
+    button.style.boxShadow = ARROW_STYLE.buttonShadowHover;
+    arrow.style.borderColor = ARROW_STYLE.colorHover;
+
+    button.addEventListener("mouseleave", removeHoverEffect);
+  });
 
   return button;
 };
