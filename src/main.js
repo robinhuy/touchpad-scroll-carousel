@@ -1,4 +1,3 @@
-// import "./main.css";
 import { DEFAULT_OPTIONS } from "./const";
 import { setCarouselStyles } from "./style";
 
@@ -29,7 +28,6 @@ function _init(options) {
 
   let position = { top: 0, left: 0, x: 0, y: 0 };
   let itemWidth = carousel.offsetWidth / slidesToShow;
-  console.log(itemWidth);
 
   setCarouselStyles(carousel, slidesToShow, halfGap);
 
@@ -52,7 +50,7 @@ function _init(options) {
   }
 
   if (mouseDrag) {
-    const mouseDownHandler = function (e) {
+    const startDrag = function (e) {
       position = {
         // The current scroll
         left: carousel.scrollLeft,
@@ -62,29 +60,31 @@ function _init(options) {
         y: e.clientY,
       };
 
-      carousel.addEventListener("mousemove", mouseMoveHandler);
-      carousel.addEventListener("mouseup", mouseUpHandler);
+      // Add event handleDrag on element
+      carousel.addEventListener("mousemove", handleDrag);
+
+      // Add event removeDragEvent on document to prevent mouseup outside element
+      document.addEventListener("mouseup", removeDragEvent);
 
       // Disable user select when drag
       carousel.style.userSelect = "none";
       carousel.style.cursor = "grab";
     };
 
-    const mouseUpHandler = function () {
-      carousel.removeEventListener("mousemove", mouseMoveHandler);
-      carousel.removeEventListener("mouseup", mouseUpHandler);
-
+    const removeDragEvent = function () {
+      document.removeEventListener("mouseup", removeDragEvent);
+      carousel.removeEventListener("mousemove", handleDrag);
       carousel.style.removeProperty("user-select");
       carousel.style.removeProperty("cursor");
     };
 
-    const mouseMoveHandler = function (e) {
+    const handleDrag = function (e) {
       const dx = e.clientX - position.x;
       carousel.scrollLeft = position.left - dx;
     };
 
     _preventDragElementA(carouselSelector);
-    carousel.addEventListener("mousedown", mouseDownHandler);
+    carousel.addEventListener("mousedown", startDrag);
   }
 }
 
