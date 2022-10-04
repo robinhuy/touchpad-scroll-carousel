@@ -22,6 +22,8 @@ export const setCarouselStyles = (
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   `;
 
   const carouselChildren = carousel.children;
@@ -92,7 +94,6 @@ export const createDefaultArrowButton = (type = "prev") => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackgroundHover;
     button.style.boxShadow = ARROW_STYLE.buttonShadowHover;
     arrow.style.borderColor = ARROW_STYLE.colorHover;
-
     button.addEventListener("mouseleave", removeHoverEffect);
   });
 

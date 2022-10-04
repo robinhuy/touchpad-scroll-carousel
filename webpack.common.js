@@ -9,7 +9,7 @@ module.exports = {
   entry: {
     main: {
       import: "./src/main.js",
-      filename: "main.min.js",
+      filename: "scroll-carousel.min.js",
     },
   },
 
