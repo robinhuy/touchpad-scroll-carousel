@@ -1,22 +1,28 @@
-export const setCarouselStyles = (carousel, slidesToShow, halfGap) => {
+export const setCarouselStyles = (
+  carousel,
+  slidesToShow,
+  gap,
+  gapNumber,
+  totalGapNumber
+) => {
+  const gapUnit = gap.replace(gapNumber, "");
+  const totalGapWithUnit = totalGapNumber + gapUnit;
+  const halfGapWithUnit = gapNumber / 2 + gapUnit;
+
   carousel.style.cssText = `
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
     overflow-x: scroll;
   `;
 
   const carouselChildren = [...carousel.children];
+
   carouselChildren.forEach((item, index) => {
     item.style.cssText = `
-      width: ${100 / slidesToShow}%;
+      width: calc((100% - ${totalGapWithUnit}) / ${slidesToShow});
       flex-shrink: 0;
-      margin-left: ${halfGap};
-      margin-right: ${halfGap};
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin-left: ${halfGapWithUnit};
+      margin-right: ${halfGapWithUnit};
     `;
 
     if (index === 0) {

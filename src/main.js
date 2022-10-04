@@ -1,5 +1,6 @@
 import { DEFAULT_OPTIONS } from "./const";
 import { setCarouselStyles } from "./style";
+import { roundDimension } from "./util";
 
 /**
  * Init.
@@ -19,33 +20,35 @@ function _init(options) {
     mouseDrag,
   } = Object.assign(DEFAULT_OPTIONS, options);
   const carousel = document.querySelector(carouselSelector);
+  let position = { top: 0, left: 0, x: 0, y: 0 };
 
   if (Number.isFinite(+gap)) {
     gap = gap + "px";
   }
   const gapNumber = parseFloat(gap);
-  const halfGap = gap.replace(gapNumber, gapNumber / 2);
+  const totalGapNumber = (slidesToShow - 1) * gapNumber;
+  setCarouselStyles(carousel, slidesToShow, gap, gapNumber, totalGapNumber);
 
-  let position = { top: 0, left: 0, x: 0, y: 0 };
-  let itemWidth = carousel.offsetWidth / slidesToShow;
-
-  setCarouselStyles(carousel, slidesToShow, halfGap);
+  const itemWidth = (carousel.offsetWidth - totalGapNumber) / slidesToShow;
+  const itemFullWidth = roundDimension(itemWidth + gapNumber);
 
   if (prevButtonSelector) {
     document.querySelector(prevButtonSelector).addEventListener("click", () => {
-      carousel.scrollTo({
-        left: carousel.scrollLeft - itemWidth - gapNumber,
-        behavior: "smooth",
-      });
+      position.left = roundDimension(carousel.scrollLeft);
+      let remainDistance = roundDimension(position.left % itemFullWidth);
+      if (remainDistance <= gapNumber) remainDistance = itemFullWidth;
+
+      let left = position.left - remainDistance;
+      carousel.scrollTo({ left, behavior: "smooth" });
     });
   }
 
   if (nextButtonSelector) {
     document.querySelector(nextButtonSelector).addEventListener("click", () => {
-      carousel.scrollTo({
-        left: carousel.scrollLeft + itemWidth + gapNumber,
-        behavior: "smooth",
-      });
+      position.left = roundDimension(carousel.scrollLeft);
+      const remainDistance = roundDimension(position.left % itemFullWidth);
+      const left = position.left + itemFullWidth - remainDistance;
+      carousel.scrollTo({ left, behavior: "smooth" });
     });
   }
 
