@@ -6,4 +6,5 @@ export const DEFAULT_OPTIONS = {
   arrows: true,
   nextButtonSelector: null,
   prevButtonSelector: null,
+  responsive: null,
 };

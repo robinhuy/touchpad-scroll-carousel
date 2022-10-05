@@ -1,6 +1,6 @@
-import { DEFAULT_OPTIONS } from "./const";
-import { initArrows, initMouseDrag } from "./dom";
-import { setCarouselStyles } from "./style";
+import { DEFAULT_OPTIONS } from './const';
+import { initArrows, initMouseDrag } from './dom';
+import { getSlidesToShowResponsive, setCarouselStyles } from './style';
 
 /**
  * Init.
@@ -19,12 +19,15 @@ function _init(options) {
     arrows,
     prevButtonSelector,
     nextButtonSelector,
+    responsive,
   } = Object.assign(DEFAULT_OPTIONS, options);
   const carousel = document.querySelector(carouselSelector);
   let position = { top: 0, left: 0, x: 0, y: 0 };
 
+  slidesToShow = getSlidesToShowResponsive(responsive, slidesToShow);
+
   if (Number.isFinite(+gap)) {
-    gap = gap + "px";
+    gap = gap + 'px';
   }
   const gapNumber = parseFloat(gap);
   const totalGapNumber = (slidesToShow - 1) * gapNumber;
@@ -48,8 +51,17 @@ function _init(options) {
 }
 
 _init({
-  carouselSelector: "#carousel",
-  slidesToShow: 3,
+  carouselSelector: '#carousel',
   gap: 30,
   mouseDrag: true,
+  responsive: [
+    {
+      breakPoint: 768,
+      slidesToShow: 2.5,
+    },
+    {
+      breakPoint: 1200,
+      slidesToShow: 3.2,
+    },
+  ],
 });
