@@ -2,15 +2,7 @@ import { DEFAULT_OPTIONS } from './const';
 import { initArrows, initMouseDrag } from './dom';
 import { getSlidesToShowResponsive, setCarouselStyles } from './style';
 
-/**
- * Init.
- *
- * @param {Object} options
- *
- * @return {Void}
- *
- */
-function _init(options) {
+function ScrollCarousel(options) {
   let {
     carouselSelector,
     slidesToShow,
@@ -20,7 +12,7 @@ function _init(options) {
     prevButtonSelector,
     nextButtonSelector,
     responsive,
-  } = Object.assign(DEFAULT_OPTIONS, options);
+  } = Object.assign({ ...DEFAULT_OPTIONS }, options);
   const carousel = document.querySelector(carouselSelector);
   let position = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -50,18 +42,4 @@ function _init(options) {
   }
 }
 
-_init({
-  carouselSelector: '#carousel',
-  gap: 30,
-  mouseDrag: true,
-  responsive: [
-    {
-      breakPoint: 768,
-      slidesToShow: 2.5,
-    },
-    {
-      breakPoint: 1200,
-      slidesToShow: 3.2,
-    },
-  ],
-});
+window.ScrollCarousel = ScrollCarousel;
