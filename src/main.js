@@ -1,6 +1,6 @@
-import { DEFAULT_OPTIONS } from './const';
-import { initArrows, initMouseDrag } from './dom';
-import { getSlidesToShowResponsive, setCarouselStyles } from './style';
+import { DEFAULT_OPTIONS } from "./const";
+import { initArrows, initMouseDrag } from "./dom";
+import { getSlidesToShowResponsive, setCarouselStyles } from "./style";
 
 function ScrollCarousel(options) {
   let {
@@ -14,12 +14,17 @@ function ScrollCarousel(options) {
     responsive,
   } = Object.assign({ ...DEFAULT_OPTIONS }, options);
   const carousel = document.querySelector(carouselSelector);
+  if (!carousel) {
+    console.error(`Cannot found carouselSelector "${carouselSelector}".`);
+    return;
+  }
+
   let position = { top: 0, left: 0, x: 0, y: 0 };
 
   slidesToShow = getSlidesToShowResponsive(responsive, slidesToShow);
 
   if (Number.isFinite(+gap)) {
-    gap = gap + 'px';
+    gap = gap + "px";
   }
   const gapNumber = parseFloat(gap);
   const totalGapNumber = (slidesToShow - 1) * gapNumber;

@@ -81,7 +81,11 @@ export const initArrows = (
 
   if (nextButtonSelector) {
     nextButtonElement = document.querySelector(nextButtonSelector);
-  } else {
+    if (!nextButtonElement)
+      console.error(`Cannot found nextButtonSelector "${nextButtonSelector}".`);
+  }
+
+  if (!nextButtonElement) {
     nextButtonElement = createDefaultArrowButton("next");
     carousel.after(nextButtonElement);
   }
@@ -95,7 +99,11 @@ export const initArrows = (
 
   if (prevButtonSelector) {
     prevButtonElement = document.querySelector(prevButtonSelector);
-  } else {
+    if (!prevButtonElement)
+      console.error(`Cannot found prevButtonSelector "${prevButtonSelector}".`);
+  }
+
+  if (!prevButtonElement) {
     prevButtonElement = createDefaultArrowButton("prev");
     carousel.after(prevButtonElement);
   }

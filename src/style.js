@@ -1,10 +1,10 @@
 const ARROW_STYLE = {
-  buttonBackground: '#ffffff',
-  buttonBackgroundHover: '#111111',
-  buttonShadow: '#b4b4b4 0px 0px 2px 1px',
-  buttonShadowHover: '#dadada 0px 0px 2px 1px',
-  color: '#979797',
-  colorHover: '#ffffff',
+  buttonBackground: "#ffffff",
+  buttonBackgroundHover: "#111111",
+  buttonShadow: "#b4b4b4 0px 0px 2px 1px",
+  buttonShadowHover: "#dadada 0px 0px 2px 1px",
+  color: "#979797",
+  colorHover: "#ffffff",
 };
 
 export const getSlidesToShowResponsive = (responsive, slidesToShow) => {
@@ -33,7 +33,7 @@ export const setCarouselStyles = (
   gapNumber,
   totalGapNumber
 ) => {
-  const gapUnit = gap.replace(gapNumber, '');
+  const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
 
@@ -58,17 +58,17 @@ export const setCarouselStyles = (
     `;
 
     if (i === 0) {
-      item.style.marginLeft = '0';
+      item.style.marginLeft = "0";
     }
 
     if (i === carouselChildren.length - 1) {
-      item.style.marginRight = '0';
+      item.style.marginRight = "0";
     }
   }
 };
 
-export const createDefaultArrowButton = (type = 'prev') => {
-  const button = document.createElement('button');
+export const createDefaultArrowButton = (type = "prev") => {
+  const button = document.createElement("button");
   button.style.cssText = `
     width: 40px;
     height: 40px;
@@ -82,7 +82,7 @@ export const createDefaultArrowButton = (type = 'prev') => {
     border-radius: 50%;
   `;
 
-  const arrow = document.createElement('div');
+  const arrow = document.createElement("div");
   arrow.style.cssText = `
     position: relative;
     width: 12px;
@@ -91,12 +91,14 @@ export const createDefaultArrowButton = (type = 'prev') => {
     border-width: 0 0 2px 2px;
     border-color: ${ARROW_STYLE.color};
   `;
-  if (type === 'prev') {
-    arrow.style.left = '10px';
-    arrow.style.transform = 'rotate(45deg)';
+  if (type === "prev") {
+    button.setAttribute("aria-label", "Previous");
+    arrow.style.left = "10px";
+    arrow.style.transform = "rotate(45deg)";
   } else {
-    arrow.style.left = '5px';
-    arrow.style.transform = 'rotate(-135deg)';
+    button.setAttribute("aria-label", "Next");
+    arrow.style.left = "5px";
+    arrow.style.transform = "rotate(-135deg)";
   }
 
   button.appendChild(arrow);
@@ -105,15 +107,15 @@ export const createDefaultArrowButton = (type = 'prev') => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackground;
     button.style.boxShadow = ARROW_STYLE.buttonShadow;
     arrow.style.borderColor = ARROW_STYLE.color;
-    button.removeEventListener('mouseleave', removeHoverEffect);
+    button.removeEventListener("mouseleave", removeHoverEffect);
   };
 
   // Hover effect
-  button.addEventListener('mouseenter', () => {
+  button.addEventListener("mouseenter", () => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackgroundHover;
     button.style.boxShadow = ARROW_STYLE.buttonShadowHover;
     arrow.style.borderColor = ARROW_STYLE.colorHover;
-    button.addEventListener('mouseleave', removeHoverEffect);
+    button.addEventListener("mouseleave", removeHoverEffect);
   });
 
   return button;

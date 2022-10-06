@@ -1,5 +1,5 @@
 ScrollCarousel({
-  carouselSelector: '#carousel1',
+  carouselSelector: "#carousel1",
   gap: 30,
   mouseDrag: true,
   responsive: [
@@ -15,6 +15,6 @@ ScrollCarousel({
 });
 
 ScrollCarousel({
-  carouselSelector: '#carousel2',
+  carouselSelector: "#carousel2",
   gap: 50,
 });
