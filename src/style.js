@@ -7,9 +7,9 @@ const ARROW_STYLE = {
   colorHover: "#ffffff",
 };
 
-export const getSlidesToShowResponsive = (responsive, slidesToShow) => {
+export const getResponsiveSettings = (responsive, slidesToShow, gap) => {
   if (!responsive) {
-    return slidesToShow;
+    return { slidesToShow, gap };
   }
 
   responsive = responsive.sort((a, b) => a.breakPoint - b.breakPoint);
@@ -23,16 +23,15 @@ export const getSlidesToShowResponsive = (responsive, slidesToShow) => {
     }
   }
 
-  return responsive[index]?.slidesToShow || slidesToShow;
+  const setting = responsive[index];
+
+  return {
+    slidesToShow: setting?.slidesToShow || slidesToShow,
+    gap: setting?.gap || gap,
+  };
 };
 
-export const setCarouselStyles = (
-  carousel,
-  slidesToShow,
-  gap,
-  gapNumber,
-  totalGapNumber
-) => {
+export const setCarouselStyles = (carousel, slidesToShow, gap, gapNumber, totalGapNumber) => {
   const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
