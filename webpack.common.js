@@ -9,7 +9,12 @@ module.exports = {
   entry: {
     main: {
       import: './src/main.js',
-      filename: 'main.js',
+      filename: 'scroll-carousel.min.js',
+    },
+    index: {
+      import: './src/index.js',
+      filename: 'index.[contenthash].js',
+      dependOn: 'main',
     },
   },
 
@@ -26,13 +31,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: 'body',
-      chunks: ['main'],
+      chunks: ['main', 'index'],
       filename: 'index.html',
     }),
 
     // https://webpack.js.org/plugins/mini-css-extract-plugin/
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].min.css',
     }),
 
     // https://webpack.js.org/plugins/image-minimizer-webpack-plugin/
