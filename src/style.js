@@ -6,10 +6,17 @@ const ARROW_STYLE = {
   color: "#979797",
   colorHover: "#ffffff",
 };
+const CAROUSEL_STYLE_TEXT = `
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
 
-export const getResponsiveSettings = (responsive, slidesToShow, gap) => {
+export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, gap) => {
   if (!responsive) {
-    return { slidesToShow, gap };
+    return { _slidesToShow: slidesToShow, _slidesToScroll: slidesToScroll, _gap: gap };
   }
 
   responsive = responsive.sort((a, b) => a.breakPoint - b.breakPoint);
@@ -26,8 +33,9 @@ export const getResponsiveSettings = (responsive, slidesToShow, gap) => {
   const setting = responsive[index];
 
   return {
-    slidesToShow: setting?.slidesToShow || slidesToShow,
-    gap: setting?.gap || gap,
+    _slidesToShow: setting?.slidesToShow || slidesToShow,
+    _slidesToScroll: setting?.slidesToScroll || slidesToScroll,
+    _gap: setting?.gap || gap,
   };
 };
 
@@ -35,23 +43,18 @@ export const setCarouselStyles = (carousel, slidesToShow, gap, gapNumber, totalG
   const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
-
-  carousel.style.cssText = `
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  `;
-
   const carouselChildren = carousel.children;
 
+  // Style carousel
+  carousel.style.cssText = CAROUSEL_STYLE_TEXT;
+
+  // Style items
   for (let i = 0; i < carousel.children.length; i++) {
     const item = carousel.children[i];
 
     item.style.cssText = `
-      width: calc((100% - ${totalGapWithUnit}) / ${slidesToShow});
       flex-shrink: 0;
+      width: calc((100% - ${totalGapWithUnit}) / ${slidesToShow});   
       margin-left: ${halfGapWithUnit};
       margin-right: ${halfGapWithUnit};
     `;

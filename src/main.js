@@ -7,6 +7,7 @@ function ScrollCarousel(options) {
   let {
     carouselSelector,
     slidesToShow,
+    slidesToScroll,
     gap,
     mouseDrag,
     arrows,
@@ -14,7 +15,6 @@ function ScrollCarousel(options) {
     nextButtonSelector,
     responsive,
   } = Object.assign({ ...DEFAULT_OPTIONS }, options);
-
   // Check carousel selector
   const carousel = document.querySelector(carouselSelector);
   if (!carousel) {
@@ -23,27 +23,52 @@ function ScrollCarousel(options) {
   }
 
   // Setup sizes
-  slidesToShow = getResponsiveSettings(responsive, slidesToShow, gap).slidesToShow;
-  gap = getResponsiveSettings(responsive, slidesToShow, gap).gap;
-  if (Number.isFinite(+gap)) {
-    gap = gap + "px";
+  let { _slidesToShow, _slidesToScroll, _gap } = getResponsiveSettings(
+    responsive,
+    slidesToShow,
+    slidesToScroll,
+    gap
+  );
+
+  _slidesToScroll = Math.round(_slidesToScroll);
+  if (Number.isFinite(+_gap)) {
+    _gap = _gap + "px";
   }
-  const gapNumber = parseFloat(gap);
-  const totalGapNumber = (slidesToShow - 1) * gapNumber;
-  setCarouselStyles(carousel, slidesToShow, gap, gapNumber, totalGapNumber);
+  const gapNumber = parseFloat(_gap);
+  const totalGapNumber = (_slidesToShow - 1) * gapNumber;
+  setCarouselStyles(carousel, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
   let position = { top: 0, left: 0, x: 0, y: 0 };
+  let item = { width: 0, fullWidth: 0 };
 
   if (arrows) {
     initArrows(
       carousel,
       position,
+      item,
       gapNumber,
       totalGapNumber,
-      slidesToShow,
+      _slidesToShow,
+      _slidesToScroll,
       nextButtonSelector,
       prevButtonSelector
     );
+
+    // Re-init to prevent layout changed
+    setTimeout(() => {
+      initArrows(
+        carousel,
+        position,
+        item,
+        gapNumber,
+        totalGapNumber,
+        _slidesToShow,
+        _slidesToScroll,
+        nextButtonSelector,
+        prevButtonSelector,
+        true
+      );
+    }, 100);
   }
 
   if (mouseDrag) {
