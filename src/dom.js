@@ -69,14 +69,20 @@ export const initMouseDrag = (carousel, position) => {
 export const initArrows = (
   carousel,
   position,
+  item,
   gapNumber,
   totalGapNumber,
   slidesToShow,
+  slidesToScroll,
   nextButtonSelector,
-  prevButtonSelector
+  prevButtonSelector,
+  isUpdate
 ) => {
-  const itemWidth = (carousel.offsetWidth - totalGapNumber) / slidesToShow;
-  const itemFullWidth = roundDimension(itemWidth + gapNumber);
+  item.itemWidth = roundDimension((carousel.offsetWidth - totalGapNumber) / slidesToShow);
+  item.itemFullWidth = roundDimension(item.itemWidth + gapNumber);
+
+  if (isUpdate) return;
+
   let prevButtonElement, nextButtonElement;
 
   if (nextButtonSelector) {
@@ -92,8 +98,8 @@ export const initArrows = (
 
   nextButtonElement.addEventListener("click", () => {
     position.left = roundDimension(carousel.scrollLeft);
-    const remainDistance = roundDimension(position.left % itemFullWidth);
-    const left = position.left + itemFullWidth - remainDistance;
+    const remainDistance = roundDimension(position.left % item.itemFullWidth);
+    const left = position.left + item.itemFullWidth * slidesToScroll - remainDistance;
     carousel.scrollTo({ left, behavior: "smooth" });
   });
 
@@ -110,10 +116,10 @@ export const initArrows = (
 
   prevButtonElement.addEventListener("click", () => {
     position.left = roundDimension(carousel.scrollLeft);
-    let remainDistance = roundDimension(position.left % itemFullWidth);
-    if (remainDistance <= gapNumber) remainDistance = itemFullWidth;
+    let remainDistance = roundDimension(position.left % (item.itemFullWidth * slidesToScroll));
+    if (remainDistance <= gapNumber) remainDistance = item.itemFullWidth * slidesToScroll;
 
-    let left = position.left - remainDistance;
+    const left = position.left - remainDistance;
     carousel.scrollTo({ left, behavior: "smooth" });
   });
 };
