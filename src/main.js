@@ -29,17 +29,18 @@ function ScrollCarousel(options) {
     slidesToScroll,
     gap
   );
-
   _slidesToScroll = Math.round(_slidesToScroll);
   if (Number.isFinite(+_gap)) {
     _gap = _gap + "px";
   }
   const gapNumber = parseFloat(_gap);
   const totalGapNumber = (_slidesToShow - 1) * gapNumber;
-  setCarouselStyles(carousel, _slidesToShow, _gap, gapNumber, totalGapNumber);
-
+  
+  // Global variables to track data changed
   let position = { top: 0, left: 0, x: 0, y: 0 };
   let item = { width: 0, fullWidth: 0 };
+
+  setCarouselStyles(carousel, carouselSelector, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
   if (arrows) {
     initArrows(

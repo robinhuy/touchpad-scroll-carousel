@@ -39,14 +39,31 @@ export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, 
   };
 };
 
-export const setCarouselStyles = (carousel, slidesToShow, gap, gapNumber, totalGapNumber) => {
+export const setCarouselStyles = (
+  carousel,
+  carouselSelector,
+  slidesToShow,
+  gap,
+  gapNumber,
+  totalGapNumber
+) => {
   const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
   const carouselChildren = carousel.children;
 
   // Style carousel
-  carousel.style.cssText = CAROUSEL_STYLE_TEXT;
+  const styleElement = document.createElement("style");
+  const styles = document.createTextNode(`
+    ${carouselSelector}::-webkit-scrollbar {
+      display: none;
+    }
+    ${carouselSelector} {
+      ${CAROUSEL_STYLE_TEXT}
+    }
+  `);
+  styleElement.appendChild(styles);
+  carousel.after(styleElement);
 
   // Style items
   for (let i = 0; i < carousel.children.length; i++) {

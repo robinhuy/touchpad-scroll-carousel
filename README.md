@@ -1,8 +1,6 @@
-# scroll-carousel
+# Scroll Carousel
 
----
-
-_The simple, lightweight carousel that requires no dependencies and supports scroll on touchpad._
+_The simple, lightweight carousel that requires no dependencies and supports scroll (left/right) on touchpad._
 
 ## Demo
 
