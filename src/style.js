@@ -122,14 +122,13 @@ export const createDefaultArrowButton = (type = "prev") => {
 
   button.appendChild(arrow);
 
+  // Hover effect
   const removeHoverEffect = () => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackground;
     button.style.boxShadow = ARROW_STYLE.buttonShadow;
     arrow.style.borderColor = ARROW_STYLE.color;
     button.removeEventListener("mouseleave", removeHoverEffect);
   };
-
-  // Hover effect
   button.addEventListener("mouseenter", () => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackgroundHover;
     button.style.boxShadow = ARROW_STYLE.buttonShadowHover;
@@ -138,4 +137,53 @@ export const createDefaultArrowButton = (type = "prev") => {
   });
 
   return button;
+};
+
+export const createScrollIndicator = (carousel) => {
+  const scrollIndicator = document.createElement("div");
+  scrollIndicator.style.cssText = `
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 1.5rem;
+    position: relative;
+    outline: none;
+    border: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0);
+    cursor: pointer;
+  `;
+
+  const scrollIndicatorBarWrapper = document.createElement("div");
+  scrollIndicatorBarWrapper.style.cssText = `
+    width: 100%;
+    height: 0.125rem;
+    background: #dfdfdf;
+    scrollbar-width: none;
+    border-radius: 4px;
+    transform: translateX(0);
+  `;
+
+  const scrollIndicatorBar = document.createElement("div");
+  const scrollIndicatorBarWidthRatio =
+    (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
+  scrollIndicatorBar.style.cssText = `
+    will-change: transform;
+    background: #111;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: ${scrollIndicatorBarWidthRatio}px;
+    height: 0.125rem;
+    transform-origin: 0 0;
+    border-radius: 4px;
+    cursor: grab;
+  `;
+
+  scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
+  scrollIndicator.appendChild(scrollIndicatorBarWrapper);
+
+  carousel.after(scrollIndicator);
+
+  return { scrollIndicator, scrollIndicatorBar };
 };

@@ -1,6 +1,6 @@
 import { DEFAULT_OPTIONS } from "./const";
 import { initArrows, initMouseDrag } from "./dom";
-import { getResponsiveSettings, setCarouselStyles } from "./style";
+import { createScrollIndicator, getResponsiveSettings, setCarouselStyles } from "./style";
 
 function ScrollCarousel(options) {
   // Set default values
@@ -35,7 +35,7 @@ function ScrollCarousel(options) {
   }
   const gapNumber = parseFloat(_gap);
   const totalGapNumber = (_slidesToShow - 1) * gapNumber;
-  
+
   // Global variables to track data changed
   let position = { top: 0, left: 0, x: 0, y: 0 };
   let item = { width: 0, fullWidth: 0 };
@@ -72,8 +72,17 @@ function ScrollCarousel(options) {
     }, 100);
   }
 
+  const { scrollIndicatorBar } = createScrollIndicator(carousel);
+  carousel.addEventListener("scroll", () => {
+    const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
+    const scrollIndicatorBarMaxTranslate = carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
+    const scrollIndicatorBarTranslate =
+      (carousel.scrollLeft * scrollIndicatorBarMaxTranslate) / carouselMaxScrollLeft;
+    scrollIndicatorBar.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
+  });
+
   if (mouseDrag) {
-    initMouseDrag(carousel, position);
+    initMouseDrag(carousel, position, scrollIndicatorBar);
   }
 }
 

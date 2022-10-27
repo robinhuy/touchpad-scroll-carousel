@@ -1,4 +1,4 @@
-import { createDefaultArrowButton } from "./style";
+import { createDefaultArrowButton, createScrollIndicator } from "./style";
 import { roundDimension } from "./util";
 
 const preventDragElementAnchor = (carousel) => {
@@ -28,7 +28,7 @@ const preventDragElementAnchor = (carousel) => {
   }
 };
 
-export const initMouseDrag = (carousel, position) => {
+export const initMouseDrag = (carousel, position, scrollIndicatorBar) => {
   const startDrag = (e) => {
     position = {
       // The current scroll
@@ -59,7 +59,8 @@ export const initMouseDrag = (carousel, position) => {
 
   const handleDrag = (e) => {
     const dx = e.clientX - position.x;
-    carousel.scrollLeft = position.left - dx;
+    const distance = position.left - dx;
+    carousel.scrollLeft = distance;
   };
 
   preventDragElementAnchor(carousel);

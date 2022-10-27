@@ -6,6 +6,46 @@ _The simple, lightweight carousel that requires no dependencies and supports scr
 
 _Coming soon_
 
+## Install
+
+### NPM: Coming soon
+
+### Build
+
+Clone project:
+
+```
+git clone https://github.com/robinhuy/scroll-carousel.git
+```
+
+Install dependencies: `npm install` or `yarn`
+
+Build: `npm run build` or `yarn build`
+
+Then, before the closing <body> tag of HTML file add script to `scroll-carousel.min.js`.
+
+### Markup
+
+HTML would look something like this:
+
+```html
+<div id="carousel">
+  <div class="item">
+    <a href="...">
+      <img src="..." alt="..." />
+    </a>
+  </div>
+</div>
+```
+
+You only need a list of item (slide), then initialize the carousel like this:
+
+```javascript
+ScrollCarousel({
+  carouselSelector: "#carousel",
+});
+```
+
 ## Settings
 
 | Option             | Type                                                  | Default     | Description                                                                                                                                       |
