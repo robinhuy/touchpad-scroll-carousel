@@ -1,4 +1,4 @@
-import { createDefaultArrowButton, createScrollIndicator } from "./style";
+import { createDefaultArrowButton } from "./style";
 import { roundDimension } from "./util";
 
 const preventDragElementAnchor = (carousel) => {
@@ -28,16 +28,16 @@ const preventDragElementAnchor = (carousel) => {
   }
 };
 
-export const initMouseDrag = (carousel, position, scrollIndicatorBar) => {
+export const initMouseDrag = (carousel) => {
+  // Store scroll state
+  const position = { left: 0, x: 0 };
+
   const startDrag = (e) => {
-    position = {
-      // The current scroll
-      left: carousel.scrollLeft,
-      top: carousel.scrollTop,
-      // The current mouse position
-      x: e.clientX,
-      y: e.clientY,
-    };
+    // The current scroll
+    position.left = carousel.scrollLeft;
+
+    // The current mouse position
+    position.x = e.clientX;
 
     // Add event handleDrag on element
     carousel.addEventListener("mousemove", handleDrag);
@@ -67,10 +67,63 @@ export const initMouseDrag = (carousel, position, scrollIndicatorBar) => {
   carousel.addEventListener("mousedown", startDrag);
 };
 
+export const initScrollIndicatorBarDrag = (
+  carousel,
+  scrollIndicator,
+  scrollIndicatorBar,
+  state
+) => {
+  // Store scroll state
+  const position = { left: 0, x: 0 };
+
+  const startDrag = (e) => {
+    // The current scroll indicator bar position
+    position.left = parseFloat(scrollIndicatorBar.style.transform.slice(11)) || 0;
+
+    // The current mouse position
+    position.x = e.clientX;
+
+    // Update scrolling status
+    state.isScrollbarIndicatorScrolling = true;
+
+    // Add event handleDrag on element
+    scrollIndicator.addEventListener("mousemove", handleDrag);
+
+    // Add event removeDragEvent on document to prevent mouseup outside element
+    document.addEventListener("mouseup", removeDragEvent);
+
+    // Disable user select when drag
+    scrollIndicatorBar.style.userSelect = "none";
+    scrollIndicatorBar.style.cursor = "grab";
+  };
+
+  const removeDragEvent = () => {
+    document.removeEventListener("mouseup", removeDragEvent);
+    scrollIndicator.removeEventListener("mousemove", handleDrag);
+    scrollIndicatorBar.style.removeProperty("user-select");
+    scrollIndicatorBar.style.removeProperty("cursor");
+
+    // Update scrolling status
+    state.isScrollbarIndicatorScrolling = false;
+  };
+
+  const handleDrag = (e) => {
+    // Move the scroll indicator bar
+    const dx = e.clientX - position.x;
+    const translate = position.left + dx;
+    scrollIndicatorBar.style.transform = `translateX(${translate}px)`;
+
+    // Move the carousel
+    const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
+    const scrollIndicatorBarMaxTranslate = carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
+    carousel.scrollLeft = (translate * carouselMaxScrollLeft) / scrollIndicatorBarMaxTranslate;
+  };
+
+  scrollIndicator.addEventListener("mousedown", startDrag);
+};
+
 export const initArrows = (
   carousel,
-  position,
-  item,
   gapNumber,
   totalGapNumber,
   slidesToShow,
@@ -79,10 +132,12 @@ export const initArrows = (
   prevButtonSelector,
   isUpdate
 ) => {
+  if (isUpdate) return;
+
+  const position = { left: 0 };
+  const item = { itemWidth: 0, itemFullWidth: 0 };
   item.itemWidth = roundDimension((carousel.offsetWidth - totalGapNumber) / slidesToShow);
   item.itemFullWidth = roundDimension(item.itemWidth + gapNumber);
-
-  if (isUpdate) return;
 
   let prevButtonElement, nextButtonElement;
 
@@ -98,6 +153,8 @@ export const initArrows = (
   }
 
   nextButtonElement.addEventListener("click", () => {
+    console.log("--- DATA ---", position);
+
     position.left = roundDimension(carousel.scrollLeft);
     const remainDistance = roundDimension(position.left % item.itemFullWidth);
     const left = position.left + item.itemFullWidth * slidesToScroll - remainDistance;

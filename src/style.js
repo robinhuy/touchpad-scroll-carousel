@@ -174,7 +174,7 @@ export const createScrollIndicator = (carousel) => {
     top: 0;
     bottom: 0;
     width: ${scrollIndicatorBarWidthRatio}px;
-    height: 0.125rem;
+    height: 0.25rem;
     transform-origin: 0 0;
     border-radius: 4px;
     cursor: grab;
