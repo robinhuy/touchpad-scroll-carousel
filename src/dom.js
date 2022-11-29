@@ -108,14 +108,20 @@ export const initScrollIndicatorBarDrag = (
   };
 
   const handleDrag = (e) => {
+    const carouselWidth = carousel.offsetWidth;
+    const scrollIndicatorBarMaxTranslate = carouselWidth - scrollIndicatorBar.offsetWidth;
+    const carouselMaxScrollLeft = carousel.scrollWidth - carouselWidth;
+
     // Move the scroll indicator bar
     const dx = e.clientX - position.x;
-    const translate = position.left + dx;
+    let translate = position.left + dx;
+
+    if (translate <= 0) translate = 0;
+    if (translate >= scrollIndicatorBarMaxTranslate) translate = scrollIndicatorBarMaxTranslate;
+
     scrollIndicatorBar.style.transform = `translateX(${translate}px)`;
 
     // Move the carousel
-    const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
-    const scrollIndicatorBarMaxTranslate = carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
     carousel.scrollLeft = (translate * carouselMaxScrollLeft) / scrollIndicatorBarMaxTranslate;
   };
 
