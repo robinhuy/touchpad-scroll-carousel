@@ -142,23 +142,19 @@ export const createDefaultArrowButton = (type = "prev") => {
 export const createScrollIndicator = (carousel) => {
   const scrollIndicator = document.createElement("div");
   scrollIndicator.style.cssText = `
+    margin: 8px 0;
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 1.5rem;
+    justify-content: center;
     position: relative;
-    outline: none;
-    border: 0;
-    padding: 0;
-    background: rgba(0, 0, 0, 0);
     cursor: pointer;
   `;
 
   const scrollIndicatorBarWrapper = document.createElement("div");
   scrollIndicatorBarWrapper.style.cssText = `
     width: 100%;
-    height: 0.125rem;
-    background: #dfdfdf;
+    height: 8px;
+    background: #ebebeb;
     scrollbar-width: none;
     border-radius: 4px;
     transform: translateX(0);
@@ -169,12 +165,12 @@ export const createScrollIndicator = (carousel) => {
     (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
   scrollIndicatorBar.style.cssText = `
     will-change: transform;
-    background: #111;
+    background: #6d6d6d;
     position: absolute;
     top: 0;
     bottom: 0;
     width: ${scrollIndicatorBarWidthRatio}px;
-    height: 0.25rem;
+    height: 10px;
     transform-origin: 0 0;
     border-radius: 4px;
     cursor: grab;

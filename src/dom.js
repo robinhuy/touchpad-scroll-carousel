@@ -45,7 +45,7 @@ export const initMouseDrag = (carousel) => {
     // Add event removeDragEvent on document to prevent mouseup outside element
     document.addEventListener("mouseup", removeDragEvent);
 
-    // Disable user select when drag
+    // Disable user select & change style when drag
     carousel.style.userSelect = "none";
     carousel.style.cursor = "grab";
   };
@@ -90,8 +90,7 @@ export const initScrollIndicatorBarDrag = (
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", removeDragEvent);
 
-    // Disable user select when drag
-    scrollIndicatorBar.style.userSelect = "none";
+    // Change style when drag
     scrollIndicatorBar.style.cursor = "grab";
   };
 
@@ -106,8 +105,6 @@ export const initScrollIndicatorBarDrag = (
   };
 
   const handleDrag = (e) => {
-    console.log("--- DATA ---", "");
-
     const carouselWidth = carousel.offsetWidth;
     const scrollIndicatorBarMaxTranslate = carouselWidth - scrollIndicatorBar.offsetWidth;
     const carouselMaxScrollLeft = carousel.scrollWidth - carouselWidth;
