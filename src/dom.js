@@ -86,10 +86,8 @@ export const initScrollIndicatorBarDrag = (
     // Update scrolling status
     state.isScrollbarIndicatorScrolling = true;
 
-    // Add event handleDrag on element
-    scrollIndicator.addEventListener("mousemove", handleDrag);
-
-    // Add event removeDragEvent on document to prevent mouseup outside element
+    // Add event handle
+    document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", removeDragEvent);
 
     // Disable user select when drag
@@ -99,7 +97,7 @@ export const initScrollIndicatorBarDrag = (
 
   const removeDragEvent = () => {
     document.removeEventListener("mouseup", removeDragEvent);
-    scrollIndicator.removeEventListener("mousemove", handleDrag);
+    document.removeEventListener("mousemove", handleDrag);
     scrollIndicatorBar.style.removeProperty("user-select");
     scrollIndicatorBar.style.removeProperty("cursor");
 
@@ -108,6 +106,8 @@ export const initScrollIndicatorBarDrag = (
   };
 
   const handleDrag = (e) => {
+    console.log("--- DATA ---", "");
+
     const carouselWidth = carousel.offsetWidth;
     const scrollIndicatorBarMaxTranslate = carouselWidth - scrollIndicatorBar.offsetWidth;
     const carouselMaxScrollLeft = carousel.scrollWidth - carouselWidth;
