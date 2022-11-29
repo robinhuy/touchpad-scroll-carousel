@@ -139,7 +139,11 @@ export const createDefaultArrowButton = (type = "prev") => {
   return button;
 };
 
-export const createScrollIndicator = (carousel) => {
+export const createScrollIndicator = (
+  carousel,
+  { height, backgroundColor, thumbColor, thumbHoverColor }
+) => {
+  // Create scroll indicator element
   const scrollIndicator = document.createElement("div");
   scrollIndicator.style.cssText = `
     margin: 8px 0;
@@ -150,35 +154,44 @@ export const createScrollIndicator = (carousel) => {
     cursor: pointer;
   `;
 
+  // Create scroll indicator bar wrapper element
   const scrollIndicatorBarWrapper = document.createElement("div");
   scrollIndicatorBarWrapper.style.cssText = `
     width: 100%;
-    height: 8px;
-    background: #ebebeb;
+    height: ${height}px;
+    background: ${backgroundColor};
     scrollbar-width: none;
     border-radius: 4px;
     transform: translateX(0);
   `;
 
+  // Create scroll indicator bar element
   const scrollIndicatorBar = document.createElement("div");
   const scrollIndicatorBarWidthRatio =
     (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
   scrollIndicatorBar.style.cssText = `
     will-change: transform;
-    background: #6d6d6d;
     position: absolute;
     top: 0;
     bottom: 0;
     width: ${scrollIndicatorBarWidthRatio}px;
-    height: 10px;
+    height: ${height}px;
+    background-color: ${thumbColor};
     transform-origin: 0 0;
     border-radius: 4px;
     cursor: grab;
+    transition: background-color 0.3s;
   `;
+  scrollIndicatorBar.addEventListener("mouseover", () => {
+    scrollIndicatorBar.style.backgroundColor = thumbHoverColor || thumbColor;
+  });
+  scrollIndicatorBar.addEventListener("mouseleave", () => {
+    scrollIndicatorBar.style.backgroundColor = thumbColor;
+  });
 
+  // Append scrollbar to carousel
   scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
   scrollIndicator.appendChild(scrollIndicatorBarWrapper);
-
   carousel.after(scrollIndicator);
 
   return { scrollIndicator, scrollIndicatorBar };

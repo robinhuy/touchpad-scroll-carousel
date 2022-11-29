@@ -13,6 +13,7 @@ function ScrollCarousel(options) {
     arrows,
     prevButtonSelector,
     nextButtonSelector,
+    scrollbarStyle,
     responsive,
   } = Object.assign({ ...DEFAULT_OPTIONS }, options);
   // Global state to track data changed
@@ -67,7 +68,7 @@ function ScrollCarousel(options) {
     }, 100);
   }
 
-  const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel);
+  const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel, scrollbarStyle);
   carousel.addEventListener("scroll", () => {
     if (!state.isScrollbarIndicatorScrolling) {
       const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;

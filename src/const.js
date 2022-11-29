@@ -7,5 +7,11 @@ export const DEFAULT_OPTIONS = {
   arrows: true,
   nextButtonSelector: null,
   prevButtonSelector: null,
+  scrollbarStyle: {
+    height: 8,
+    backgroundColor: "#ebebeb",
+    thumbColor: "#6d6d6d",
+    thumbHoverColor: "#4b4b4b",
+  },
   responsive: null,
 };
