@@ -22,7 +22,7 @@ Install dependencies: `npm install` or `yarn`
 
 Build: `npm run build` or `yarn build`
 
-Then, before the closing <body> tag of HTML file add script to `scroll-carousel.min.js`.
+The built file is `dist/scroll-carousel.min.js`. Then, before the closing <body> tag of HTML file add script to said file.
 
 ### Markup
 
@@ -48,19 +48,19 @@ ScrollCarousel({
 
 ## Settings
 
-| Option             | Type                      | Default                                    | Description                                                                                                                            |
-| ------------------ | ------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | --- |
-| carouselSelector   | string (CSS selector)     | null                                       | Selects a node to initialize the carousel                                                                                              |
-| gap                | int (value as pixel unit) | 15                                         | The gap between items                                                                                                                  |
-| mouseDrag          | boolean                   | true                                       | Enables mouse dragging                                                                                                                 |
-| showArrows         | boolean                   | true                                       | Enables Next/Prev arrows                                                                                                               |     |
-| nextButtonSelector | string (CSS selector)     | `#btn-next`                                | Allows you to select a node to customize the "Next" arrow. Only work when `showArrows = true`.                                         |
-| prevButtonSelector | string (CSS selector)     | `#btn-prev`                                | Allows you to select a node to customize the "Previous" arrow. Only work when `showArrows = true`.                                     |
-| showScrollbar      | boolean                   | true                                       | Enables scrollbar scrollbar.                                                                                                           |
-| scrollbarStyle     | object                    | [See&nbsp;example](#scrollbarstyle-option) | Contains style settings for the scrollbar. Only work when `showScrollbar = true`.                                                      |
-| responsive         | array                     | null                                       | Array of objects [contains breakpoints and setting objects (see example)](#responsive-option). Enables settings at given `breakpoint`. |
-| slidesToScroll     | int                       | 1                                          | # of slides to scroll at a time                                                                                                        |
-| slidesToShow       | float                     | 1                                          | # of slides to show at a time                                                                                                          |
+| Option             | Type                       | Default                                    | Description                                                                                                                            |
+| ------------------ | -------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| carouselSelector   | string (CSS&nbsp;selector) | null                                       | Selects a node to initialize the carousel                                                                                              |
+| gap                | int (value as pixel unit)  | 15                                         | The gap between items                                                                                                                  |
+| mouseDrag          | boolean                    | true                                       | Enables mouse dragging                                                                                                                 |
+| showArrows         | boolean                    | true                                       | Enables Next/Prev arrows                                                                                                               |
+| nextButtonSelector | string (CSS&nbsp;selector) | `#btn-next`                                | Allows you to select a node to customize the "Next" arrow. Only work when `showArrows = true`.                                         |
+| prevButtonSelector | string (CSS&nbsp;selector) | `#btn-prev`                                | Allows you to select a node to customize the "Previous" arrow. Only work when `showArrows = true`.                                     |
+| showScrollbar      | boolean                    | true                                       | Enables scrollbar.                                                                                                                     |
+| scrollbarStyle     | object                     | [See&nbsp;example](#scrollbarstyle-option) | Contains style settings for the scrollbar. Only work when `showScrollbar = true`.                                                      |
+| responsive         | array                      | null                                       | Array of objects [contains breakpoints and setting objects (see example)](#responsive-option). Enables settings at given `breakpoint`. |
+| slidesToScroll     | int                        | 1                                          | # of slides to scroll at a time                                                                                                        |
+| slidesToShow       | float                      | 1                                          | # of slides to show at a time                                                                                                          |
 
 ### ScrollbarStyle Option
 
