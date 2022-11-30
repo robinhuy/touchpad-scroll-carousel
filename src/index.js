@@ -15,9 +15,3 @@ ScrollCarousel({
     },
   ],
 });
-
-ScrollCarousel({
-  carouselSelector: "#carousel2",
-  slidesToShow: 2,
-  slidesToScroll: 2,
-});

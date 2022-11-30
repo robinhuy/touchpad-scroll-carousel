@@ -1,6 +1,6 @@
 import { DEFAULT_OPTIONS } from "./const";
-import { initArrows, initMouseDrag } from "./dom";
-import { getResponsiveSettings, setCarouselStyles } from "./style";
+import { initArrows, initMouseDrag, initScrollIndicatorBarDrag } from "./dom";
+import { createScrollIndicator, getResponsiveSettings, setCarouselStyles } from "./style";
 
 function ScrollCarousel(options) {
   // Set default values
@@ -10,11 +10,17 @@ function ScrollCarousel(options) {
     slidesToScroll,
     gap,
     mouseDrag,
-    arrows,
+    showArrows,
     prevButtonSelector,
     nextButtonSelector,
+    showScrollbar,
     responsive,
   } = Object.assign({ ...DEFAULT_OPTIONS }, options);
+  let scrollbarStyle = Object.assign(DEFAULT_OPTIONS.scrollbarStyle, options?.scrollbarStyle);
+
+  // Global state to track data changed
+  const state = { isScrollbarIndicatorScrolling: false };
+
   // Check carousel selector
   const carousel = document.querySelector(carouselSelector);
   if (!carousel) {
@@ -29,23 +35,18 @@ function ScrollCarousel(options) {
     slidesToScroll,
     gap
   );
-
   _slidesToScroll = Math.round(_slidesToScroll);
   if (Number.isFinite(+_gap)) {
     _gap = _gap + "px";
   }
   const gapNumber = parseFloat(_gap);
   const totalGapNumber = (_slidesToShow - 1) * gapNumber;
-  setCarouselStyles(carousel, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
-  let position = { top: 0, left: 0, x: 0, y: 0 };
-  let item = { width: 0, fullWidth: 0 };
+  setCarouselStyles(carousel, carouselSelector, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
-  if (arrows) {
+  if (showArrows) {
     initArrows(
       carousel,
-      position,
-      item,
       gapNumber,
       totalGapNumber,
       _slidesToShow,
@@ -54,12 +55,10 @@ function ScrollCarousel(options) {
       prevButtonSelector
     );
 
-    // Re-init to prevent layout changed
+    // Re-init to prevent layout changed (ex: document scrollbar appear/disappear)
     setTimeout(() => {
       initArrows(
         carousel,
-        position,
-        item,
         gapNumber,
         totalGapNumber,
         _slidesToShow,
@@ -71,8 +70,23 @@ function ScrollCarousel(options) {
     }, 100);
   }
 
+  if (showScrollbar) {
+    const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel, scrollbarStyle);
+    carousel.addEventListener("scroll", () => {
+      if (!state.isScrollbarIndicatorScrolling) {
+        const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
+        const scrollIndicatorBarMaxTranslate =
+          carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
+        const scrollIndicatorBarTranslate =
+          (carousel.scrollLeft * scrollIndicatorBarMaxTranslate) / carouselMaxScrollLeft;
+        scrollIndicatorBar.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
+      }
+    });
+    initScrollIndicatorBarDrag(carousel, scrollIndicator, scrollIndicatorBar, state);
+  }
+
   if (mouseDrag) {
-    initMouseDrag(carousel, position);
+    initMouseDrag(carousel);
   }
 }
 

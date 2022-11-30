@@ -39,14 +39,31 @@ export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, 
   };
 };
 
-export const setCarouselStyles = (carousel, slidesToShow, gap, gapNumber, totalGapNumber) => {
+export const setCarouselStyles = (
+  carousel,
+  carouselSelector,
+  slidesToShow,
+  gap,
+  gapNumber,
+  totalGapNumber
+) => {
   const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
   const carouselChildren = carousel.children;
 
   // Style carousel
-  carousel.style.cssText = CAROUSEL_STYLE_TEXT;
+  const styleElement = document.createElement("style");
+  const styles = document.createTextNode(`
+    ${carouselSelector}::-webkit-scrollbar {
+      display: none;
+    }
+    ${carouselSelector} {
+      ${CAROUSEL_STYLE_TEXT}
+    }
+  `);
+  styleElement.appendChild(styles);
+  carousel.after(styleElement);
 
   // Style items
   for (let i = 0; i < carousel.children.length; i++) {
@@ -105,14 +122,13 @@ export const createDefaultArrowButton = (type = "prev") => {
 
   button.appendChild(arrow);
 
+  // Hover effect
   const removeHoverEffect = () => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackground;
     button.style.boxShadow = ARROW_STYLE.buttonShadow;
     arrow.style.borderColor = ARROW_STYLE.color;
     button.removeEventListener("mouseleave", removeHoverEffect);
   };
-
-  // Hover effect
   button.addEventListener("mouseenter", () => {
     button.style.backgroundColor = ARROW_STYLE.buttonBackgroundHover;
     button.style.boxShadow = ARROW_STYLE.buttonShadowHover;
@@ -121,4 +137,63 @@ export const createDefaultArrowButton = (type = "prev") => {
   });
 
   return button;
+};
+
+export const createScrollIndicator = (
+  carousel,
+  { height, marginTop, marginBottom, borderRadius, backgroundColor, thumbColor, thumbHoverColor }
+) => {
+  // Create scroll indicator element
+  const scrollIndicator = document.createElement("div");
+  scrollIndicator.style.cssText = `
+    marginTop: ${marginTop}px;
+    marginBottom: ${marginBottom}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  `;
+
+  // Create scroll indicator bar wrapper element
+  const scrollIndicatorBarWrapper = document.createElement("div");
+  scrollIndicatorBarWrapper.style.cssText = `
+    width: 100%;
+    height: ${height}px;
+    background: ${backgroundColor};
+    scrollbar-width: none;
+    border-radius: ${borderRadius}px;
+    transform: translateX(0);
+  `;
+
+  // Create scroll indicator bar element
+  const scrollIndicatorBar = document.createElement("div");
+  const scrollIndicatorBarWidthRatio =
+    (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
+  scrollIndicatorBar.style.cssText = `
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: ${scrollIndicatorBarWidthRatio}px;
+    height: ${height}px;
+    background-color: ${thumbColor};
+    transform-origin: 0 0;
+    border-radius: ${borderRadius}px;
+    cursor: grab;
+    transition: background-color 0.3s;
+  `;
+  scrollIndicatorBar.addEventListener("mouseover", () => {
+    scrollIndicatorBar.style.backgroundColor = thumbHoverColor || thumbColor;
+  });
+  scrollIndicatorBar.addEventListener("mouseleave", () => {
+    scrollIndicatorBar.style.backgroundColor = thumbColor;
+  });
+
+  // Append scrollbar to carousel
+  scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
+  scrollIndicator.appendChild(scrollIndicatorBarWrapper);
+  carousel.after(scrollIndicator);
+
+  return { scrollIndicator, scrollIndicatorBar };
 };
