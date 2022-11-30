@@ -1,11 +1,8 @@
 {
   "name": "scroll-carousel",
   "version": "1.0.0",
-  "description": "",
+  "description": "The simple, lightweight carousel that requires no dependencies and supports scroll on touchpad.",
   "main": "index.js",
-  "directories": {
-    "example": "examples"
-  },
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
