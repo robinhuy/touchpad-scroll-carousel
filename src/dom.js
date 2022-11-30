@@ -157,8 +157,6 @@ export const initArrows = (
   }
 
   nextButtonElement.addEventListener("click", () => {
-    console.log("--- DATA ---", position);
-
     position.left = roundDimension(carousel.scrollLeft);
     const remainDistance = roundDimension(position.left % item.itemFullWidth);
     const left = position.left + item.itemFullWidth * slidesToScroll - remainDistance;
