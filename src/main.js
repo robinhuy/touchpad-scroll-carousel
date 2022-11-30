@@ -10,12 +10,14 @@ function ScrollCarousel(options) {
     slidesToScroll,
     gap,
     mouseDrag,
-    arrows,
+    showArrows,
     prevButtonSelector,
     nextButtonSelector,
-    scrollbarStyle,
+    showScrollbar,
     responsive,
   } = Object.assign({ ...DEFAULT_OPTIONS }, options);
+  let scrollbarStyle = Object.assign(DEFAULT_OPTIONS.scrollbarStyle, options?.scrollbarStyle);
+
   // Global state to track data changed
   const state = { isScrollbarIndicatorScrolling: false };
 
@@ -42,7 +44,7 @@ function ScrollCarousel(options) {
 
   setCarouselStyles(carousel, carouselSelector, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
-  if (arrows) {
+  if (showArrows) {
     initArrows(
       carousel,
       gapNumber,
@@ -68,17 +70,20 @@ function ScrollCarousel(options) {
     }, 100);
   }
 
-  const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel, scrollbarStyle);
-  carousel.addEventListener("scroll", () => {
-    if (!state.isScrollbarIndicatorScrolling) {
-      const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
-      const scrollIndicatorBarMaxTranslate = carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
-      const scrollIndicatorBarTranslate =
-        (carousel.scrollLeft * scrollIndicatorBarMaxTranslate) / carouselMaxScrollLeft;
-      scrollIndicatorBar.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
-    }
-  });
-  initScrollIndicatorBarDrag(carousel, scrollIndicator, scrollIndicatorBar, state);
+  if (showScrollbar) {
+    const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel, scrollbarStyle);
+    carousel.addEventListener("scroll", () => {
+      if (!state.isScrollbarIndicatorScrolling) {
+        const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
+        const scrollIndicatorBarMaxTranslate =
+          carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
+        const scrollIndicatorBarTranslate =
+          (carousel.scrollLeft * scrollIndicatorBarMaxTranslate) / carouselMaxScrollLeft;
+        scrollIndicatorBar.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
+      }
+    });
+    initScrollIndicatorBarDrag(carousel, scrollIndicator, scrollIndicatorBar, state);
+  }
 
   if (mouseDrag) {
     initMouseDrag(carousel);

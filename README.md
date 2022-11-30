@@ -48,36 +48,56 @@ ScrollCarousel({
 
 ## Settings
 
-| Option             | Type                                                  | Default     | Description                                                                                                                                       |
-| ------------------ | ----------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| carouselSelector   | string (CSS selector)                                 | null        | Select a node to initialize the carousel                                                                                                          |
-| gap                | int (value as pixel unit) \| string (value with unit) | 15          | The gap between items                                                                                                                             |
-| arrows             | boolean                                               | true        | Enable Next/Prev arrows                                                                                                                           |
-| mouseDrag          | boolean                                               | true        | Enables mouse dragging                                                                                                                            |
-| nextButtonSelector | string (CSS selector)                                 | `#btn-next` | Allows you to select a node to customize the "Next" arrow.                                                                                        |
-| prevButtonSelector | string (CSS selector)                                 | `#btn-prev` | Allows you to select a node to customize the "Previous" arrow.                                                                                    |
-| responsive         | array                                                 | null        | Array of objects [containing breakpoints and settings objects (see example)](#responsive-option-example). Enables settings at given `breakpoint`. |
-| slidesToScroll     | int                                                   | 1           | # of slides to scroll at a time                                                                                                                   |
-| slidesToShow       | float                                                 | 1           | # of slides to show at a time                                                                                                                     |
+| Option             | Type                      | Default                                    | Description                                                                                                                            |
+| ------------------ | ------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| carouselSelector   | string (CSS selector)     | null                                       | Selects a node to initialize the carousel                                                                                              |
+| gap                | int (value as pixel unit) | 15                                         | The gap between items                                                                                                                  |
+| mouseDrag          | boolean                   | true                                       | Enables mouse dragging                                                                                                                 |
+| showArrows         | boolean                   | true                                       | Enables Next/Prev arrows                                                                                                               |     |
+| nextButtonSelector | string (CSS selector)     | `#btn-next`                                | Allows you to select a node to customize the "Next" arrow. Only work when `showArrows = true`.                                         |
+| prevButtonSelector | string (CSS selector)     | `#btn-prev`                                | Allows you to select a node to customize the "Previous" arrow. Only work when `showArrows = true`.                                     |
+| showScrollbar      | boolean                   | true                                       | Enables scrollbar scrollbar.                                                                                                           |
+| scrollbarStyle     | object                    | [See&nbsp;example](#scrollbarstyle-option) | Contains style settings for the scrollbar. Only work when `showScrollbar = true`.                                                      |
+| responsive         | array                     | null                                       | Array of objects [contains breakpoints and setting objects (see example)](#responsive-option). Enables settings at given `breakpoint`. |
+| slidesToScroll     | int                       | 1                                          | # of slides to scroll at a time                                                                                                        |
+| slidesToShow       | float                     | 1                                          | # of slides to show at a time                                                                                                          |
 
-### Responsive Option Example
+### ScrollbarStyle Option
 
-The responsive option, and value, is quite unique and powerful.
-You can use it like so:
+The scrollbar style options, for example:
 
 ```javascript
 ScrollCarousel({
   carouselSelector: "#carousel",
-  gap: 30,
-  mouseDrag: true,
+  scrollbarStyle: {
+    height: 8,
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 4,
+    backgroundColor: "#ebebeb",
+    thumbColor: "#6d6d6d",
+    thumbHoverColor: "#4b4b4b",
+  },
+});
+```
+
+Note that dimensions are measured in px and colors are in string format (color name, hex value,...).
+
+### Responsive Option
+
+The responsive options with self-defined breakpoints, for example:
+
+```javascript
+ScrollCarousel({
+  carouselSelector: "#carousel",
   responsive: [
     {
-      breakPoint: 768,
+      breakpoint: 768,
       slidesToShow: 2.5,
       gap: 30,
     },
     {
-      breakPoint: 1200,
+      breakpoint: 1200,
       slidesToShow: 3.2,
       gap: 50,
     },
