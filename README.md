@@ -4,25 +4,9 @@ _The simple, lightweight carousel that requires no dependencies and supports scr
 
 ## Demo
 
-_Coming soon_
+[Scroll Carousel Example](https://huydq.dev/static-apps/scroll-carousel/)
 
 ## Install
-
-### NPM: Coming soon
-
-### Build
-
-Clone project:
-
-```
-git clone https://github.com/robinhuy/scroll-carousel.git
-```
-
-Install dependencies: `npm install` or `yarn`
-
-Build: `npm run build` or `yarn build`
-
-The built file is `dist/scroll-carousel.min.js`. Then, before the closing <body> tag of HTML file add script to said file.
 
 ### Markup
 
@@ -43,8 +27,43 @@ You only need a list of item (slide), then initialize the carousel like this:
 ```javascript
 ScrollCarousel({
   carouselSelector: "#carousel",
+  ... // other options
 });
 ```
+
+### CDN
+
+jsDelivr: [https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js](https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@v1.0.0/dist/scroll-carousel.min.js)
+
+Example use CDN:
+
+```html
+...
+<body>
+  <div id="carousel">
+    <div class="item">
+      <a href="..."><img src="..." alt="..." /></a>
+    </div>
+
+    <div class="item">
+      <a href="..."><img src="..." alt="..." /></a>
+    </div>
+
+    <div class="item">
+      <a href="..."><img src="..." alt="..." /></a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js"></script>
+  <script>
+    ScrollCarousel({
+      carouselSelector: "#carousel",
+    });
+  </script>
+</body>
+```
+
+### NPM: Coming soon
 
 ## Settings
 
