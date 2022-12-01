@@ -141,13 +141,22 @@ export const createDefaultArrowButton = (type = "prev") => {
 
 export const createScrollIndicator = (
   carousel,
-  { height, marginTop, marginBottom, borderRadius, backgroundColor, thumbColor, thumbHoverColor }
+  {
+    position,
+    height,
+    marginTop,
+    marginBottom,
+    borderRadius,
+    backgroundColor,
+    thumbColor,
+    thumbHoverColor,
+  }
 ) => {
   // Create scroll indicator element
   const scrollIndicator = document.createElement("div");
   scrollIndicator.style.cssText = `
-    marginTop: ${marginTop}px;
-    marginBottom: ${marginBottom}px;
+    margin-top: ${marginTop}px;
+    margin-bottom: ${marginBottom}px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -193,7 +202,11 @@ export const createScrollIndicator = (
   // Append scrollbar to carousel
   scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
   scrollIndicator.appendChild(scrollIndicatorBarWrapper);
-  carousel.after(scrollIndicator);
+  if (position === "top") {
+    carousel.before(scrollIndicator);
+  } else {
+    carousel.after(scrollIndicator);
+  }
 
   return { scrollIndicator, scrollIndicatorBar };
 };

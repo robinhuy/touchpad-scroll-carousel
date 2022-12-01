@@ -9,6 +9,7 @@ export const DEFAULT_OPTIONS = {
   prevButtonSelector: null,
   showScrollbar: true,
   scrollbarStyle: {
+    position: "bottom",
     height: 8,
     marginTop: 8,
     marginBottom: 8,

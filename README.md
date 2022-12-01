@@ -70,6 +70,7 @@ The scrollbar style options, for example:
 ScrollCarousel({
   carouselSelector: "#carousel",
   scrollbarStyle: {
+    position: "bottom", // "top" or "bottom"
     height: 8,
     marginTop: 8,
     marginBottom: 8,
@@ -94,12 +95,12 @@ ScrollCarousel({
     {
       breakpoint: 768,
       slidesToShow: 2.5,
-      gap: 30,
+      gap: 20,
     },
     {
       breakpoint: 1200,
-      slidesToShow: 3.2,
-      gap: 50,
+      slidesToShow: 4,
+      gap: 30,
     },
   ],
 });
