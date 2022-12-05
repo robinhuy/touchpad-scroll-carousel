@@ -67,18 +67,15 @@ export const initMouseDrag = (carousel) => {
   carousel.addEventListener("mousedown", startDrag);
 };
 
-export const initScrollIndicatorBarDrag = (
-  carousel,
-  scrollIndicator,
-  scrollIndicatorBar,
-  state
-) => {
+export const initScrollIndicatorBarDrag = (state) => {
+  const { carousel, scrollIndicatorElement, scrollIndicatorBarElement } = state;
+
   // Store scroll state
   const position = { left: 0, x: 0 };
 
   const startDrag = (e) => {
     // The current scroll indicator bar position
-    position.left = parseFloat(scrollIndicatorBar.style.transform.slice(11)) || 0;
+    position.left = parseFloat(scrollIndicatorBarElement.style.transform.slice(11)) || 0;
 
     // The current mouse position
     position.x = e.clientX;
@@ -92,14 +89,14 @@ export const initScrollIndicatorBarDrag = (
 
     // Disable user select & change style of cursor when drag
     carousel.style.userSelect = "none";
-    scrollIndicatorBar.style.cursor = "grab";
+    scrollIndicatorBarElement.style.cursor = "grab";
   };
 
   const removeDragEvent = () => {
     document.removeEventListener("mouseup", removeDragEvent);
     document.removeEventListener("mousemove", handleDrag);
     carousel.style.removeProperty("user-select");
-    scrollIndicatorBar.style.removeProperty("cursor");
+    scrollIndicatorBarElement.style.removeProperty("cursor");
 
     // Update scrolling status
     state.isScrollbarIndicatorScrolling = false;
@@ -107,7 +104,7 @@ export const initScrollIndicatorBarDrag = (
 
   const handleDrag = (e) => {
     const carouselWidth = carousel.offsetWidth;
-    const scrollIndicatorBarMaxTranslate = carouselWidth - scrollIndicatorBar.offsetWidth;
+    const scrollIndicatorBarMaxTranslate = carouselWidth - scrollIndicatorBarElement.offsetWidth;
     const carouselMaxScrollLeft = carousel.scrollWidth - carouselWidth;
 
     // Move the scroll indicator bar
@@ -117,13 +114,13 @@ export const initScrollIndicatorBarDrag = (
     if (translate <= 0) translate = 0;
     if (translate >= scrollIndicatorBarMaxTranslate) translate = scrollIndicatorBarMaxTranslate;
 
-    scrollIndicatorBar.style.transform = `translateX(${translate}px)`;
+    scrollIndicatorBarElement.style.transform = `translateX(${translate}px)`;
 
     // Move the carousel
     carousel.scrollLeft = (translate * carouselMaxScrollLeft) / scrollIndicatorBarMaxTranslate;
   };
 
-  scrollIndicator.addEventListener("mousedown", startDrag);
+  scrollIndicatorElement.addEventListener("mousedown", startDrag);
 };
 
 export const initArrows = (

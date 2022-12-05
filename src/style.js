@@ -1,3 +1,11 @@
+const CAROUSEL_STYLE_TEXT = `
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
+
 const ARROW_STYLE = {
   buttonBackground: "#ffffff",
   buttonBackgroundHover: "#111111",
@@ -6,12 +14,47 @@ const ARROW_STYLE = {
   color: "#979797",
   colorHover: "#ffffff",
 };
-const CAROUSEL_STYLE_TEXT = `
+const ARROW_BUTTON_STYLE_TEXT = `
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.4s linear;
+  background-color: ${ARROW_STYLE.buttonBackground};
+  box-shadow: ${ARROW_STYLE.buttonShadow};
+  touch-action: manipulation;
+  appearance: none;
+  border: none;
+  border-radius: 50%;
+`;
+const ARROW_BUTTON_ICON_STYLE_TEXT = `
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-style: solid;
+  border-width: 0 0 2px 2px;
+  border-color: ${ARROW_STYLE.color};
+`;
+
+const SCROLL_INDICATOR_STYLE_TEXT = `
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+`;
+const SCROLL_INDICATOR_BAR_WRAPPER_STYLE_TEXT = `
+  width: 100%;
   scrollbar-width: none;
+  transform: translateX(0);
+`;
+const SCROLL_INDICATOR_BAR_STYLE_TEXT = `
+  will-change: transform;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform-origin: 0 0;
+  cursor: grab;
+  transition: background-color 0.3s;
 `;
 
 export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, gap) => {
@@ -91,28 +134,10 @@ export const setCarouselStyles = (
 
 export const createDefaultArrowButton = (type = "prev") => {
   const button = document.createElement("button");
-  button.style.cssText = `
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: all 0.4s linear;
-    background-color: ${ARROW_STYLE.buttonBackground};
-    box-shadow: ${ARROW_STYLE.buttonShadow};
-    touch-action: manipulation;
-    appearance: none;
-    border: none;
-    border-radius: 50%;
-  `;
+  button.style.cssText = ARROW_BUTTON_STYLE_TEXT;
 
   const arrow = document.createElement("div");
-  arrow.style.cssText = `
-    position: relative;
-    width: 12px;
-    height: 12px;
-    border-style: solid;
-    border-width: 0 0 2px 2px;
-    border-color: ${ARROW_STYLE.color};
-  `;
+  arrow.style.cssText = ARROW_BUTTON_ICON_STYLE_TEXT;
   if (type === "prev") {
     button.setAttribute("aria-label", "Previous");
     arrow.style.left = "10px";
@@ -143,7 +168,7 @@ export const createDefaultArrowButton = (type = "prev") => {
 };
 
 export const createScrollIndicator = (
-  carousel,
+  state,
   {
     position,
     height,
@@ -155,61 +180,55 @@ export const createScrollIndicator = (
     thumbHoverColor,
   }
 ) => {
-  // Create scroll indicator element
-  const scrollIndicator = document.createElement("div");
-  scrollIndicator.style.cssText = `
-    margin-top: ${marginTop}px;
-    margin-bottom: ${marginBottom}px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-  `;
+  const { carousel } = state;
 
-  // Create scroll indicator bar wrapper element
-  const scrollIndicatorBarWrapper = document.createElement("div");
-  scrollIndicatorBarWrapper.style.cssText = `
-    width: 100%;
-    height: ${height}px;
-    background: ${backgroundColor};
-    scrollbar-width: none;
-    border-radius: ${borderRadius}px;
-    transform: translateX(0);
-  `;
+  if (!state.scrollIndicatorElement) {
+    // Create scroll indicator element
+    const scrollIndicator = document.createElement("div");
+    scrollIndicator.style.cssText = `
+      ${SCROLL_INDICATOR_STYLE_TEXT}
+      margin-top: ${marginTop}px;
+      margin-bottom: ${marginBottom}px;
+    `;
+    state.scrollIndicatorElement = scrollIndicator;
 
-  // Create scroll indicator bar element
-  const scrollIndicatorBar = document.createElement("div");
-  const scrollIndicatorBarWidthRatio =
-    (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
-  scrollIndicatorBar.style.cssText = `
-    will-change: transform;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: ${scrollIndicatorBarWidthRatio}px;
-    height: ${height}px;
-    background-color: ${thumbColor};
-    transform-origin: 0 0;
-    border-radius: ${borderRadius}px;
-    cursor: grab;
-    transition: background-color 0.3s;
-  `;
-  scrollIndicatorBar.addEventListener("mouseover", () => {
-    scrollIndicatorBar.style.backgroundColor = thumbHoverColor || thumbColor;
-  });
-  scrollIndicatorBar.addEventListener("mouseleave", () => {
-    scrollIndicatorBar.style.backgroundColor = thumbColor;
-  });
+    // Create scroll indicator bar wrapper element
+    const scrollIndicatorBarWrapper = document.createElement("div");
+    scrollIndicatorBarWrapper.style.cssText = `
+      ${SCROLL_INDICATOR_BAR_WRAPPER_STYLE_TEXT}
+      height: ${height}px;
+      background: ${backgroundColor};
+      border-radius: ${borderRadius}px;
+    `;
 
-  // Append scrollbar to carousel
-  scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
-  scrollIndicator.appendChild(scrollIndicatorBarWrapper);
-  if (position === "top") {
-    carousel.before(scrollIndicator);
-  } else {
-    carousel.after(scrollIndicator);
+    // Create scroll indicator bar element
+    const scrollIndicatorBar = document.createElement("div");
+    scrollIndicatorBar.style.cssText = `
+      ${SCROLL_INDICATOR_BAR_STYLE_TEXT}
+      height: ${height}px;
+      background-color: ${thumbColor};
+      border-radius: ${borderRadius}px;
+    `;
+    scrollIndicatorBar.addEventListener("mouseover", () => {
+      scrollIndicatorBar.style.backgroundColor = thumbHoverColor || thumbColor;
+    });
+    scrollIndicatorBar.addEventListener("mouseleave", () => {
+      scrollIndicatorBar.style.backgroundColor = thumbColor;
+    });
+    state.scrollIndicatorBarElement = scrollIndicatorBar;
+
+    // Append scrollbar to carousel
+    scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
+    scrollIndicator.appendChild(scrollIndicatorBarWrapper);
+    if (position === "top") {
+      carousel.before(scrollIndicator);
+    } else {
+      carousel.after(scrollIndicator);
+    }
   }
 
-  return { scrollIndicator, scrollIndicatorBar };
+  // Calculate scroll indicator bar width
+  const scrollIndicatorBarWidthRatio =
+    (carousel.offsetWidth * carousel.offsetWidth) / carousel.scrollWidth;
+  state.scrollIndicatorBarElement.style.width = `${scrollIndicatorBarWidthRatio}px`;
 };
