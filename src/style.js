@@ -40,13 +40,16 @@ export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, 
 };
 
 export const setCarouselStyles = (
-  carousel,
+  state,
   carouselSelector,
   slidesToShow,
   gap,
   gapNumber,
   totalGapNumber
 ) => {
+  const { carousel, carouselStyled } = state;
+  if (carouselStyled) return;
+
   const gapUnit = gap.replace(gapNumber, "");
   const totalGapWithUnit = totalGapNumber + gapUnit;
   const halfGapWithUnit = gapNumber / 2 + gapUnit;

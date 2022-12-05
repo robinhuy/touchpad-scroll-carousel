@@ -127,33 +127,34 @@ export const initScrollIndicatorBarDrag = (
 };
 
 export const initArrows = (
-  carousel,
+  state,
   gapNumber,
   totalGapNumber,
   slidesToShow,
   slidesToScroll,
   nextButtonSelector,
-  prevButtonSelector,
-  isUpdate
+  prevButtonSelector
 ) => {
-  if (isUpdate) return;
+  let { carousel, prevButtonElement, nextButtonElement } = state;
 
   const position = { left: 0 };
   const item = { itemWidth: 0, itemFullWidth: 0 };
   item.itemWidth = roundDimension((carousel.offsetWidth - totalGapNumber) / slidesToShow);
   item.itemFullWidth = roundDimension(item.itemWidth + gapNumber);
 
-  let prevButtonElement, nextButtonElement;
-
-  if (nextButtonSelector) {
-    nextButtonElement = document.querySelector(nextButtonSelector);
-    if (!nextButtonElement)
-      console.error(`Cannot found nextButtonSelector "${nextButtonSelector}".`);
-  }
-
   if (!nextButtonElement) {
-    nextButtonElement = createDefaultArrowButton("next");
-    carousel.after(nextButtonElement);
+    if (nextButtonSelector) {
+      nextButtonElement = document.querySelector(nextButtonSelector);
+      if (!nextButtonElement)
+        console.error(`Cannot found nextButtonSelector "${nextButtonSelector}".`);
+    }
+
+    if (!nextButtonElement) {
+      nextButtonElement = createDefaultArrowButton("next");
+      carousel.after(nextButtonElement);
+    }
+
+    state.nextButtonElement = nextButtonElement;
   }
 
   nextButtonElement.addEventListener("click", () => {
@@ -163,15 +164,19 @@ export const initArrows = (
     carousel.scrollTo({ left, behavior: "smooth" });
   });
 
-  if (prevButtonSelector) {
-    prevButtonElement = document.querySelector(prevButtonSelector);
-    if (!prevButtonElement)
-      console.error(`Cannot found prevButtonSelector "${prevButtonSelector}".`);
-  }
-
   if (!prevButtonElement) {
-    prevButtonElement = createDefaultArrowButton("prev");
-    carousel.after(prevButtonElement);
+    if (prevButtonSelector) {
+      prevButtonElement = document.querySelector(prevButtonSelector);
+      if (!prevButtonElement)
+        console.error(`Cannot found prevButtonSelector "${prevButtonSelector}".`);
+    }
+
+    if (!prevButtonElement) {
+      prevButtonElement = createDefaultArrowButton("prev");
+      carousel.after(prevButtonElement);
+    }
+
+    state.prevButtonElement = prevButtonElement;
   }
 
   prevButtonElement.addEventListener("click", () => {
