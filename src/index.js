@@ -15,3 +15,7 @@ ScrollCarousel({
     },
   ],
 });
+
+ScrollCarousel({
+  carouselSelector: "#carousel2",
+});

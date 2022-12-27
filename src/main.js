@@ -19,7 +19,15 @@ function ScrollCarousel(options) {
   let scrollbarStyle = Object.assign(DEFAULT_OPTIONS.scrollbarStyle, options?.scrollbarStyle);
 
   // Global state to track data changed
-  const state = { isScrollbarIndicatorScrolling: false };
+  const state = {
+    carousel: null,
+    carouselStyled: false,
+    prevButtonElement: null,
+    nextButtonElement: null,
+    scrollIndicatorElement: null,
+    scrollIndicatorBarElement: null,
+    isScrollbarIndicatorScrolling: false,
+  };
 
   // Check carousel selector
   const carousel = document.querySelector(carouselSelector);
@@ -27,6 +35,56 @@ function ScrollCarousel(options) {
     console.error(`Cannot found carouselSelector "${carouselSelector}".`);
     return;
   }
+  state.carousel = carousel;
+
+  initCarousel(
+    carouselSelector,
+    slidesToShow,
+    slidesToScroll,
+    gap,
+    mouseDrag,
+    showArrows,
+    prevButtonSelector,
+    nextButtonSelector,
+    showScrollbar,
+    responsive,
+    scrollbarStyle,
+    state
+  );
+
+  window.addEventListener("resize", () =>
+    initCarousel(
+      carouselSelector,
+      slidesToShow,
+      slidesToScroll,
+      gap,
+      mouseDrag,
+      showArrows,
+      prevButtonSelector,
+      nextButtonSelector,
+      showScrollbar,
+      responsive,
+      scrollbarStyle,
+      state
+    )
+  );
+}
+
+function initCarousel(
+  carouselSelector,
+  slidesToShow,
+  slidesToScroll,
+  gap,
+  mouseDrag,
+  showArrows,
+  prevButtonSelector,
+  nextButtonSelector,
+  showScrollbar,
+  responsive,
+  scrollbarStyle,
+  state
+) {
+  const { carousel } = state;
 
   // Setup sizes
   let { _slidesToShow, _slidesToScroll, _gap } = getResponsiveSettings(
@@ -42,11 +100,11 @@ function ScrollCarousel(options) {
   const gapNumber = parseFloat(_gap);
   const totalGapNumber = (_slidesToShow - 1) * gapNumber;
 
-  setCarouselStyles(carousel, carouselSelector, _slidesToShow, _gap, gapNumber, totalGapNumber);
+  setCarouselStyles(state, carouselSelector, _slidesToShow, _gap, gapNumber, totalGapNumber);
 
   if (showArrows) {
     initArrows(
-      carousel,
+      state,
       gapNumber,
       totalGapNumber,
       _slidesToShow,
@@ -58,31 +116,31 @@ function ScrollCarousel(options) {
     // Re-init to prevent layout changed (ex: document scrollbar appear/disappear)
     setTimeout(() => {
       initArrows(
-        carousel,
+        state,
         gapNumber,
         totalGapNumber,
         _slidesToShow,
         _slidesToScroll,
         nextButtonSelector,
-        prevButtonSelector,
-        true
+        prevButtonSelector
       );
     }, 100);
   }
 
   if (showScrollbar) {
-    const { scrollIndicator, scrollIndicatorBar } = createScrollIndicator(carousel, scrollbarStyle);
+    createScrollIndicator(state, scrollbarStyle);
+
     carousel.addEventListener("scroll", () => {
       if (!state.isScrollbarIndicatorScrolling) {
         const carouselMaxScrollLeft = carousel.scrollWidth - carousel.offsetWidth;
         const scrollIndicatorBarMaxTranslate =
-          carousel.offsetWidth - scrollIndicatorBar.offsetWidth;
+          carousel.offsetWidth - state.scrollIndicatorBarElement.offsetWidth;
         const scrollIndicatorBarTranslate =
           (carousel.scrollLeft * scrollIndicatorBarMaxTranslate) / carouselMaxScrollLeft;
-        scrollIndicatorBar.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
+        state.scrollIndicatorBarElement.style.transform = `translateX(${scrollIndicatorBarTranslate}px)`;
       }
     });
-    initScrollIndicatorBarDrag(carousel, scrollIndicator, scrollIndicatorBar, state);
+    initScrollIndicatorBarDrag(state);
   }
 
   if (mouseDrag) {
