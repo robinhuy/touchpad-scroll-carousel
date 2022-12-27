@@ -1,61 +1,4 @@
-const CAROUSEL_STYLE_TEXT = `
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-`;
-
-const ARROW_STYLE = {
-  buttonBackground: "#ffffff",
-  buttonBackgroundHover: "#111111",
-  buttonShadow: "#b4b4b4 0px 0px 2px 1px",
-  buttonShadowHover: "#dadada 0px 0px 2px 1px",
-  color: "#979797",
-  colorHover: "#ffffff",
-};
-const ARROW_BUTTON_STYLE_TEXT = `
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  transition: all 0.4s linear;
-  background-color: ${ARROW_STYLE.buttonBackground};
-  box-shadow: ${ARROW_STYLE.buttonShadow};
-  touch-action: manipulation;
-  appearance: none;
-  border: none;
-  border-radius: 50%;
-`;
-const ARROW_BUTTON_ICON_STYLE_TEXT = `
-  position: relative;
-  width: 12px;
-  height: 12px;
-  border-style: solid;
-  border-width: 0 0 2px 2px;
-  border-color: ${ARROW_STYLE.color};
-`;
-
-const SCROLL_INDICATOR_STYLE_TEXT = `
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-`;
-const SCROLL_INDICATOR_BAR_WRAPPER_STYLE_TEXT = `
-  width: 100%;
-  scrollbar-width: none;
-  transform: translateX(0);
-`;
-const SCROLL_INDICATOR_BAR_STYLE_TEXT = `
-  will-change: transform;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  transform-origin: 0 0;
-  cursor: grab;
-  transition: background-color 0.3s;
-`;
+import { ARROW_STYLE, CAROUSEL_STYLE_TEXT, arrowStyle, scrollIndicatorStyle } from "./const";
 
 export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, gap) => {
   if (!responsive) {
@@ -98,6 +41,12 @@ export const setCarouselStyles = (
   const halfGapWithUnit = gapNumber / 2 + gapUnit;
   const carouselChildren = carousel.children;
 
+  // Create wrapper element
+  const wrapperElement = document.createElement("div");
+  wrapperElement.style.position = "relative";
+  carousel.after(wrapperElement);
+  wrapperElement.appendChild(carousel);
+
   // Style carousel
   const styleElement = document.createElement("style");
   const styles = document.createTextNode(`
@@ -109,7 +58,7 @@ export const setCarouselStyles = (
     }
   `);
   styleElement.appendChild(styles);
-  carousel.after(styleElement);
+  carousel.before(styleElement);
 
   // Style items
   for (let i = 0; i < carousel.children.length; i++) {
@@ -133,21 +82,24 @@ export const setCarouselStyles = (
 };
 
 export const createDefaultArrowButton = (type = "prev") => {
+  // Create button
   const button = document.createElement("button");
-  button.style.cssText = ARROW_BUTTON_STYLE_TEXT;
+  button.style.cssText = arrowStyle.arrowButtonStyleText;
 
+  // Create arrow
   const arrow = document.createElement("div");
-  arrow.style.cssText = ARROW_BUTTON_ICON_STYLE_TEXT;
+  arrow.style.cssText = arrowStyle.arrowButtonIconStyleText;
   if (type === "prev") {
     button.setAttribute("aria-label", "Previous");
+    button.style.left = "-20px";
     arrow.style.left = "10px";
     arrow.style.transform = "rotate(45deg)";
   } else {
     button.setAttribute("aria-label", "Next");
+    button.style.right = "-20px";
     arrow.style.left = "5px";
     arrow.style.transform = "rotate(-135deg)";
   }
-
   button.appendChild(arrow);
 
   // Hover effect
@@ -186,7 +138,7 @@ export const createScrollIndicator = (
     // Create scroll indicator element
     const scrollIndicator = document.createElement("div");
     scrollIndicator.style.cssText = `
-      ${SCROLL_INDICATOR_STYLE_TEXT}
+      ${scrollIndicatorStyle.scrollIndicatorStyleText}
       margin-top: ${marginTop}px;
       margin-bottom: ${marginBottom}px;
     `;
@@ -195,7 +147,7 @@ export const createScrollIndicator = (
     // Create scroll indicator bar wrapper element
     const scrollIndicatorBarWrapper = document.createElement("div");
     scrollIndicatorBarWrapper.style.cssText = `
-      ${SCROLL_INDICATOR_BAR_WRAPPER_STYLE_TEXT}
+      ${scrollIndicatorStyle.scrollIndicatorBarWrapperStyleText}
       height: ${height}px;
       background: ${backgroundColor};
       border-radius: ${borderRadius}px;
@@ -204,7 +156,7 @@ export const createScrollIndicator = (
     // Create scroll indicator bar element
     const scrollIndicatorBar = document.createElement("div");
     scrollIndicatorBar.style.cssText = `
-      ${SCROLL_INDICATOR_BAR_STYLE_TEXT}
+      ${scrollIndicatorStyle.scrollIndicatorBarStyleText}
       height: ${height}px;
       background-color: ${thumbColor};
       border-radius: ${borderRadius}px;
@@ -218,8 +170,8 @@ export const createScrollIndicator = (
     state.scrollIndicatorBarElement = scrollIndicatorBar;
 
     // Append scrollbar to carousel
-    scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
     scrollIndicator.appendChild(scrollIndicatorBarWrapper);
+    scrollIndicatorBarWrapper.appendChild(scrollIndicatorBar);
     if (position === "top") {
       carousel.before(scrollIndicator);
     } else {
