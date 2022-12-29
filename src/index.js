@@ -1,21 +1,21 @@
-ScrollTouchpadCarousel({
+TouchpadScrollCarousel({
   carouselSelector: "#carousel1",
   gap: 30,
   mouseDrag: true,
   responsive: [
     {
-      breakPoint: 768,
+      breakpoint: 768,
       slidesToShow: 2.5,
       gap: 30,
     },
     {
-      breakPoint: 1200,
+      breakpoint: 1200,
       slidesToShow: 3.2,
       gap: 50,
     },
   ],
 });
 
-ScrollTouchpadCarousel({
+TouchpadScrollCarousel({
   carouselSelector: "#carousel2",
 });

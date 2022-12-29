@@ -5,11 +5,11 @@ export const getResponsiveSettings = (responsive, slidesToShow, slidesToScroll, 
     return { _slidesToShow: slidesToShow, _slidesToScroll: slidesToScroll, _gap: gap };
   }
 
-  responsive = responsive.sort((a, b) => a.breakPoint - b.breakPoint);
+  responsive = responsive.sort((a, b) => a.breakpoint - b.breakpoint);
 
   let index = -1;
   for (let screen of responsive) {
-    if (window.matchMedia(`(min-width: ${screen.breakPoint}px)`).matches) {
+    if (window.matchMedia(`(min-width: ${screen.breakpoint}px)`).matches) {
       index++;
     } else {
       break;

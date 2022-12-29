@@ -10,7 +10,7 @@ module.exports = {
   entry: {
     main: {
       import: "./src/main.js",
-      filename: "scroll-touchpad-carousel.min.js",
+      filename: "touchpad-scroll-carousel.min.js",
     },
     index: {
       import: "./src/index.js",

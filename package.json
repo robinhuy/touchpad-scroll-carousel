@@ -1,25 +1,24 @@
 {
-  "name": "scroll-touchpad-carousel",
+  "name": "touchpad-scroll-carousel",
   "version": "1.0.0",
-  "description": "The simple, lightweight carousel that requires no dependencies and supports scroll on touchpad.",
+  "description": "The simple, lightweight responsive carousel that requires no dependencies and supports scroll on touchpad.",
   "author": "Robin Huy",
   "license": "MIT",
-  "homepage": "https://github.com/robinhuy/scroll-touchpad-carousel#readme",
+  "homepage": "https://github.com/robinhuy/touchpad-scroll-carousel#readme",
   "bugs": {
-    "url": "https://github.com/robinhuy/scroll-touchpad-carousel/issues"
+    "url": "https://github.com/robinhuy/touchpad-scroll-carousel/issues"
   },
-  "main": "index.js",
+  "main": "dist/touchpad-scroll-carousel",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robinhuy/scroll-touchpad-carousel.git"
+    "url": "git+https://github.com/robinhuy/touchpad-scroll-carousel.git"
   },
   "keywords": [
     "javascript",
-    "carousel",
     "scroll",
     "touchpad",
     "carousel"
