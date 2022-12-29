@@ -1,4 +1,4 @@
-ScrollCarousel({
+ScrollTouchpadCarousel({
   carouselSelector: "#carousel1",
   gap: 30,
   mouseDrag: true,
@@ -16,6 +16,6 @@ ScrollCarousel({
   ],
 });
 
-ScrollCarousel({
+ScrollTouchpadCarousel({
   carouselSelector: "#carousel2",
 });

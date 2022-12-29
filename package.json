@@ -1,7 +1,13 @@
 {
-  "name": "scroll-carousel",
+  "name": "scroll-touchpad-carousel",
   "version": "1.0.0",
   "description": "The simple, lightweight carousel that requires no dependencies and supports scroll on touchpad.",
+  "author": "Robin Huy",
+  "license": "MIT",
+  "homepage": "https://github.com/robinhuy/scroll-touchpad-carousel#readme",
+  "bugs": {
+    "url": "https://github.com/robinhuy/scroll-touchpad-carousel/issues"
+  },
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
@@ -9,20 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robinhuy/scroll-carousel.git"
+    "url": "git+https://github.com/robinhuy/scroll-touchpad-carousel.git"
   },
   "keywords": [
     "javascript",
     "carousel",
     "scroll",
+    "touchpad",
     "carousel"
   ],
-  "author": "Robin Huy",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/robinhuy/scroll-carousel/issues"
-  },
-  "homepage": "https://github.com/robinhuy/scroll-carousel#readme",
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.19.3",
@@ -37,7 +38,7 @@
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-optipng": "^8.0.0",
     "imagemin-svgo": "^9.0.0",
-    "json5": "^2.2.1",
+    "json5": "^2.2.2",
     "mini-css-extract-plugin": "^1.6.0",
     "sass": "^1.55.0",
     "sass-loader": "^12.1.0",

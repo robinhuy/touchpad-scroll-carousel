@@ -2,7 +2,7 @@ import { DEFAULT_OPTIONS } from "./const";
 import { initArrows, initMouseDrag, initScrollIndicatorBarDrag } from "./dom";
 import { createScrollIndicator, getResponsiveSettings, setCarouselStyles } from "./style";
 
-function ScrollCarousel(options) {
+function ScrollTouchpadCarousel(options) {
   // Set default values
   let {
     carouselSelector,
@@ -148,4 +148,6 @@ function initCarousel(
   }
 }
 
-window.ScrollCarousel = ScrollCarousel;
+window.ScrollTouchpadCarousel = ScrollTouchpadCarousel;
+
+export default ScrollTouchpadCarousel;

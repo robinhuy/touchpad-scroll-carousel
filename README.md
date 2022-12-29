@@ -1,10 +1,10 @@
-# Scroll Carousel
+# Scroll Touchpad Carousel
 
 _The simple, lightweight carousel that requires no dependencies and supports scroll (left/right) on touchpad._
 
 ## Demo
 
-[Scroll Carousel Example](https://huydq.dev/static-apps/scroll-carousel/)
+[Scroll Touchpad Carousel Example](https://huydq.dev/static-apps/scroll-touchpad-carousel/)
 
 ## Install
 
@@ -25,7 +25,7 @@ HTML would look something like this:
 You only need a list of item (slide), then initialize the carousel like this:
 
 ```javascript
-ScrollCarousel({
+ScrollTouchpadCarousel({
   carouselSelector: "#carousel",
   ... // other options
 });
@@ -33,7 +33,7 @@ ScrollCarousel({
 
 ### CDN
 
-jsDelivr: [https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js](https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@v1.0.0/dist/scroll-carousel.min.js)
+jsDelivr: [https://cdn.jsdelivr.net/gh/robinhuy/scroll-touchpad-carousel/dist/scroll-touchpad-carousel.min.js](https://cdn.jsdelivr.net/gh/robinhuy/scroll-touchpad-carousel/dist/scroll-touchpad-carousel.min.js)
 
 Example use CDN:
 
@@ -54,9 +54,9 @@ Example use CDN:
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/robinhuy/scroll-touchpad-carousel@1.0.0/dist/scroll-touchpad-carousel.min.js"></script>
   <script>
-    ScrollCarousel({
+    ScrollTouchpadCarousel({
       carouselSelector: "#carousel",
     });
   </script>
@@ -86,7 +86,7 @@ Example use CDN:
 The scrollbar style options, for example:
 
 ```javascript
-ScrollCarousel({
+ScrollTouchpadCarousel({
   carouselSelector: "#carousel",
   scrollbarStyle: {
     position: "bottom", // "top" or "bottom"
@@ -108,7 +108,7 @@ Note that dimensions are measured in px and colors are in string format (color n
 The responsive options with self-defined breakpoints, for example:
 
 ```javascript
-ScrollCarousel({
+ScrollTouchpadCarousel({
   carouselSelector: "#carousel",
   responsive: [
     {
