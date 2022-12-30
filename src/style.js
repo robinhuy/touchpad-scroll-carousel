@@ -56,6 +56,9 @@ export const setCarouselStyles = (
     ${carouselSelector} {
       ${CAROUSEL_STYLE_TEXT}
     }
+    ${carouselSelector} img {
+      max-width: 100%;
+    }
   `);
   styleElement.appendChild(styles);
   carousel.before(styleElement);

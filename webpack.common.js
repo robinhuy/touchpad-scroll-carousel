@@ -73,7 +73,7 @@ module.exports = {
 
     // https://webpack.js.org/plugins/banner-plugin/#root
     new webpack.BannerPlugin({
-      banner: "Scroll Carousel v1.0.0 | (c) 2022 Robin Huy | MIT license.\n",
+      banner: "Scroll Carousel v1.0.1 | (c) 2022 Robin Huy | MIT license.\n",
     }),
   ],
 
