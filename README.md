@@ -33,7 +33,7 @@ TouchpadScrollCarousel({
 
 ### CDN
 
-jsDelivr: [https://cdn.jsdelivr.net/gh/robinhuy/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js](https://cdn.jsdelivr.net/gh/robinhuy/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js)
+jsDelivr: [https://cdn.jsdelivr.net/npm/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js](https://cdn.jsdelivr.net/npm/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js)
 
 Example use CDN:
 
@@ -81,7 +81,7 @@ Example use NPM for a React App:
 import { useEffect } from "react";
 import "touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js";
 
-const ExampleComponent = () => {
+const CarouselComponent = () => {
   useEffect(() => {
     window.TouchpadScrollCarousel({
       carouselSelector: "#carousel",
@@ -111,7 +111,7 @@ const ExampleComponent = () => {
   );
 };
 
-export default ExampleComponent;
+export default CarouselComponent;
 ```
 
 If you want to use TypeScript, create a file name `index.d.ts` in root folder of the project or in same folder as the component:
@@ -217,7 +217,7 @@ TouchpadScrollCarousel({
 
 ## Browser support
 
-Scroll Carousel works on modern browsers such as Edge, Chrome, Firefox, and Safari.
+Touchpad Scroll Carousel works on modern browsers such as Edge, Chrome, Firefox, and Safari.
 
 ## License
 
