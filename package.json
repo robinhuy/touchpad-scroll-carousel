@@ -1,6 +1,6 @@
 {
   "name": "touchpad-scroll-carousel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The simple, lightweight responsive carousel that requires no dependencies and supports scroll on touchpad.",
   "author": "Robin Huy",
   "license": "MIT",
