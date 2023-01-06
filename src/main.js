@@ -24,6 +24,8 @@ function TouchpadScrollCarousel(options) {
     carouselStyled: false,
     prevButtonElement: null,
     nextButtonElement: null,
+    handlePrevButtonClick: null,
+    handleNextButtonClick: null,
     scrollIndicatorElement: null,
     scrollIndicatorBarElement: null,
     isScrollbarIndicatorScrolling: false,
@@ -38,6 +40,7 @@ function TouchpadScrollCarousel(options) {
   state.carousel = carousel;
 
   initCarousel(
+    state,
     carouselSelector,
     slidesToShow,
     slidesToScroll,
@@ -48,12 +51,12 @@ function TouchpadScrollCarousel(options) {
     nextButtonSelector,
     showScrollbar,
     responsive,
-    scrollbarStyle,
-    state
+    scrollbarStyle
   );
 
   window.addEventListener("resize", () =>
     initCarousel(
+      state,
       carouselSelector,
       slidesToShow,
       slidesToScroll,
@@ -64,13 +67,13 @@ function TouchpadScrollCarousel(options) {
       nextButtonSelector,
       showScrollbar,
       responsive,
-      scrollbarStyle,
-      state
+      scrollbarStyle
     )
   );
 }
 
 function initCarousel(
+  state,
   carouselSelector,
   slidesToShow,
   slidesToScroll,
@@ -81,8 +84,7 @@ function initCarousel(
   nextButtonSelector,
   showScrollbar,
   responsive,
-  scrollbarStyle,
-  state
+  scrollbarStyle
 ) {
   const { carousel } = state;
 
