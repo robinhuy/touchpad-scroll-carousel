@@ -73,6 +73,9 @@ export const initScrollIndicatorBarDrag = (state) => {
   // Store scroll state
   const position = { left: 0, x: 0 };
 
+  // Reset position of scroll indicator bar
+  scrollIndicatorBarElement.style.transform = `translateX(0)`;
+
   const startDrag = (e) => {
     // The current scroll indicator bar position
     position.left = parseFloat(scrollIndicatorBarElement.style.transform.slice(11)) || 0;
