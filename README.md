@@ -1,10 +1,10 @@
-# Scroll Carousel
+# Touchpad Scroll Carousel
 
-_The simple, lightweight carousel that requires no dependencies and supports scroll (left/right) on touchpad._
+_The simple, lightweight responsive carousel that requires no dependencies and supports scroll (left/right) on touchpad._
 
 ## Demo
 
-[Scroll Carousel Example](https://huydq.dev/static-apps/scroll-carousel/)
+[Touchpad Scroll Carousel Example](https://huydq.dev/static-apps/touchpad-scroll-carousel/)
 
 ## Install
 
@@ -25,7 +25,7 @@ HTML would look something like this:
 You only need a list of item (slide), then initialize the carousel like this:
 
 ```javascript
-ScrollCarousel({
+TouchpadScrollCarousel({
   carouselSelector: "#carousel",
   ... // other options
 });
@@ -33,7 +33,7 @@ ScrollCarousel({
 
 ### CDN
 
-jsDelivr: [https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js](https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@v1.0.0/dist/scroll-carousel.min.js)
+jsDelivr: [https://cdn.jsdelivr.net/npm/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js](https://cdn.jsdelivr.net/npm/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js)
 
 Example use CDN:
 
@@ -54,16 +54,106 @@ Example use CDN:
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/robinhuy/scroll-carousel@1.0.0/dist/scroll-carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/robinhuy/touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js"></script>
   <script>
-    ScrollCarousel({
+    TouchpadScrollCarousel({
       carouselSelector: "#carousel",
     });
   </script>
 </body>
 ```
 
-### NPM: Coming soon
+### NPM
+
+```
+npm install touchpad-scroll-carousel
+```
+
+or using `yarn`:
+
+```
+yarn add touchpad-scroll-carousel
+```
+
+Example use NPM for a React App:
+
+```jsx
+import { useEffect } from "react";
+import "touchpad-scroll-carousel/dist/touchpad-scroll-carousel.min.js";
+
+const CarouselComponent = () => {
+  useEffect(() => {
+    window.TouchpadScrollCarousel({
+      carouselSelector: "#carousel",
+    });
+  }, []);
+
+  return (
+    <div id="carousel">
+      <div className="item">
+        <a href="...">
+          <img src="..." alt="..." />
+        </a>
+      </div>
+
+      <div className="item">
+        <a href="...">
+          <img src="..." alt="..." />
+        </a>
+      </div>
+
+      <div className="item">
+        <a href="...">
+          <img src="..." alt="..." />
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export default CarouselComponent;
+```
+
+If you want to use TypeScript, create a file name `index.d.ts` in root folder of the project or in same folder as the component:
+
+```js
+export {};
+
+interface ResponsiveOptions {
+  breakpoint?: number;
+  slidesToShow?: number;
+  gap?: number;
+}
+
+interface TouchpadScrollCarouselOptions {
+  carouselSelector: string;
+  slidesToShow?: number;
+  slidesToScroll?: number;
+  gap?: number;
+  mouseDrag?: boolean;
+  showArrows?: boolean;
+  nextButtonSelector?: string;
+  prevButtonSelector?: string;
+  showScrollbar?: boolean;
+  scrollbarStyle?: {
+    position?: string;
+    height?: number;
+    marginTop?: number;
+    marginBottom?: number;
+    borderRadius?: number;
+    backgroundColor?: string;
+    thumbColor?: string;
+    thumbHoverColor?: string;
+  };
+  responsive?: ResponsiveOptions[];
+}
+
+declare global {
+  interface Window {
+    TouchpadScrollCarousel: (options: TouchpadScrollCarouselOptions) => void;
+  }
+}
+```
 
 ## Settings
 
@@ -86,7 +176,7 @@ Example use CDN:
 The scrollbar style options, for example:
 
 ```javascript
-ScrollCarousel({
+TouchpadScrollCarousel({
   carouselSelector: "#carousel",
   scrollbarStyle: {
     position: "bottom", // "top" or "bottom"
@@ -108,7 +198,7 @@ Note that dimensions are measured in px and colors are in string format (color n
 The responsive options with self-defined breakpoints, for example:
 
 ```javascript
-ScrollCarousel({
+TouchpadScrollCarousel({
   carouselSelector: "#carousel",
   responsive: [
     {
@@ -127,7 +217,7 @@ ScrollCarousel({
 
 ## Browser support
 
-Scroll Carousel works on modern browsers such as Edge, Chrome, Firefox, and Safari.
+Touchpad Scroll Carousel works on modern browsers such as Edge, Chrome, Firefox, and Safari.
 
 ## License
 
