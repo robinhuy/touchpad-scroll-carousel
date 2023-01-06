@@ -139,6 +139,7 @@ export const initArrows = (
   item.itemWidth = roundDimension((carousel.offsetWidth - totalGapNumber) / slidesToShow);
   item.itemFullWidth = roundDimension(item.itemWidth + gapNumber);
 
+  // Create next button element
   if (!nextButtonElement) {
     if (nextButtonSelector) {
       nextButtonElement = document.querySelector(nextButtonSelector);
@@ -154,13 +155,22 @@ export const initArrows = (
     state.nextButtonElement = nextButtonElement;
   }
 
-  nextButtonElement.addEventListener("click", () => {
+  // Remove previous onclick event if exists
+  if (state.handleNextButtonClick) {
+    nextButtonElement.removeEventListener("click", state.handleNextButtonClick);
+  }
+
+  // Add onclick event handler to next button
+  const handleNextButtonClick = () => {
     position.left = roundDimension(carousel.scrollLeft);
     const remainDistance = roundDimension(position.left % item.itemFullWidth);
     const left = position.left + item.itemFullWidth * slidesToScroll - remainDistance;
     carousel.scrollTo({ left, behavior: "smooth" });
-  });
+  };
+  nextButtonElement.addEventListener("click", handleNextButtonClick);
+  state.handleNextButtonClick = handleNextButtonClick;
 
+  // Create prev button element
   if (!prevButtonElement) {
     if (prevButtonSelector) {
       prevButtonElement = document.querySelector(prevButtonSelector);
@@ -176,12 +186,20 @@ export const initArrows = (
     state.prevButtonElement = prevButtonElement;
   }
 
-  prevButtonElement.addEventListener("click", () => {
+  // Remove previous onclick event if exists
+  if (state.handlePrevButtonClick) {
+    prevButtonElement.removeEventListener("click", state.handlePrevButtonClick);
+  }
+
+  // Add onclick event handler to prev button
+  const handlePrevButtonClick = () => {
     position.left = roundDimension(carousel.scrollLeft);
     let remainDistance = roundDimension(position.left % (item.itemFullWidth * slidesToScroll));
     if (remainDistance <= gapNumber) remainDistance = item.itemFullWidth * slidesToScroll;
 
     const left = position.left - remainDistance;
     carousel.scrollTo({ left, behavior: "smooth" });
-  });
+  };
+  prevButtonElement.addEventListener("click", handlePrevButtonClick);
+  state.handlePrevButtonClick = handlePrevButtonClick;
 };
