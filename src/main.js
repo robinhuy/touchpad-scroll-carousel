@@ -1,6 +1,6 @@
-import { DEFAULT_OPTIONS } from "./const";
-import { initArrows, initMouseDrag, initScrollIndicatorBarDrag } from "./dom";
-import { createScrollIndicator, getResponsiveSettings, setCarouselStyles } from "./style";
+import {DEFAULT_OPTIONS} from "./const";
+import {initArrows, initMouseDrag, initScrollIndicatorBarDrag} from "./dom";
+import {createScrollIndicator, getResponsiveSettings, setCarouselStyles} from "./style";
 
 function TouchpadScrollCarousel(options) {
   // Set default values
@@ -15,7 +15,7 @@ function TouchpadScrollCarousel(options) {
     nextButtonSelector,
     showScrollbar,
     responsive,
-  } = Object.assign({ ...DEFAULT_OPTIONS }, options);
+  } = Object.assign({...DEFAULT_OPTIONS}, options);
   let scrollbarStyle = Object.assign(DEFAULT_OPTIONS.scrollbarStyle, options?.scrollbarStyle);
 
   // Global state to track data changed
@@ -29,6 +29,7 @@ function TouchpadScrollCarousel(options) {
     scrollIndicatorElement: null,
     scrollIndicatorBarElement: null,
     isScrollbarIndicatorScrolling: false,
+    resizeDebounceTimer: null,
   };
 
   // Check carousel selector
@@ -54,22 +55,29 @@ function TouchpadScrollCarousel(options) {
     scrollbarStyle
   );
 
-  window.addEventListener("resize", () =>
-    initCarousel(
-      state,
-      carouselSelector,
-      slidesToShow,
-      slidesToScroll,
-      gap,
-      mouseDrag,
-      showArrows,
-      prevButtonSelector,
-      nextButtonSelector,
-      showScrollbar,
-      responsive,
-      scrollbarStyle
-    )
-  );
+  // Update carousel responsive
+  const debounce = (callback, time) => {
+    window.clearTimeout(state.resizeDebounceTimer);
+    state.resizeDebounceTimer = window.setTimeout(callback, time);
+  };
+  window.addEventListener("resize", () => {
+    debounce(() => {
+      initCarousel(
+        state,
+        carouselSelector,
+        slidesToShow,
+        slidesToScroll,
+        gap,
+        mouseDrag,
+        showArrows,
+        prevButtonSelector,
+        nextButtonSelector,
+        showScrollbar,
+        responsive,
+        scrollbarStyle
+      );
+    }, 500);
+  });
 }
 
 function initCarousel(
@@ -86,10 +94,10 @@ function initCarousel(
   responsive,
   scrollbarStyle
 ) {
-  const { carousel } = state;
+  const {carousel} = state;
 
   // Setup sizes
-  let { _slidesToShow, _slidesToScroll, _gap } = getResponsiveSettings(
+  let {_slidesToShow, _slidesToScroll, _gap} = getResponsiveSettings(
     responsive,
     slidesToShow,
     slidesToScroll,
