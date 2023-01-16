@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerWebpackPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
+const {extendDefaultPlugins} = require("svgo");
 const json5 = require("json5");
 
 module.exports = {
@@ -46,9 +46,9 @@ module.exports = {
       minimizerOptions: {
         // Lossless optimization with custom option
         plugins: [
-          ["gifsicle", { interlaced: true }],
-          ["jpegtran", { progressive: true }],
-          ["optipng", { optimizationLevel: 5 }],
+          ["gifsicle", {interlaced: true}],
+          ["jpegtran", {progressive: true}],
+          ["optipng", {optimizationLevel: 5}],
           // Svgo configuration here https://github.com/svg/svgo#configuration
           [
             "svgo",
@@ -61,7 +61,7 @@ module.exports = {
                 {
                   name: "addAttributesToSVGElement",
                   params: {
-                    attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
+                    attributes: [{xmlns: "http://www.w3.org/2000/svg"}],
                   },
                 },
               ]),
@@ -73,7 +73,7 @@ module.exports = {
 
     // https://webpack.js.org/plugins/banner-plugin/#root
     new webpack.BannerPlugin({
-      banner: "Scroll Carousel v1.0.2 | (c) 2022 Robin Huy | MIT license.\n",
+      banner: "Scroll Carousel v1.0.3 | (c) 2022 Robin Huy | MIT license.\n",
     }),
   ],
 
