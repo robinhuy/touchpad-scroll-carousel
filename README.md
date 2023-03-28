@@ -1,6 +1,6 @@
 # Touchpad Scroll Carousel
 
-_The simple, lightweight responsive carousel that requires no dependencies and supports scroll (left/right) on touchpad._
+_The simple, lightweight, responsive carousel requires no dependencies and supports smooth scrolling (left/right) on touchpads._
 
 ## Demo
 
